@@ -1,11 +1,34 @@
 Package: webDatabases
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Find And Download Canadian Forestry Data
+Version: 0.0.1
+Date: 2017-03-15
+Authors@R: c(
+    person(c("Alex", "M"), "Chubaty", email = "alexander.chubaty@canada.ca",
+    role = c("aut", "cre")),
+    person(c("Eliot", "J", "B"), "McIntire", email = "eliot.mcintire@canada.ca",
+    role = c("aut")),
+    person("Melina", "Houle", email = "houle.melina@gmail.com",
+    role = c("aut")),
+    person("Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources Canada",
+    role = "cph")
+    )
+Description: A set of functions for finding and downloading web datasets,
+    with an initial focus on datasets relevant for work in Canadian forests.
+Imports:
+  digest,
+  httr,
+  magrittr,
+  methods,
+  utils
+Suggests:
+  knitr,
+  rmarkdown,
+  testthat
+BugReports: https://github.com/PredictiveEcology/webDatabases/issues
+License: GPL-3
+ByteCompile: yes
 Encoding: UTF-8
 LazyData: true
+VignetteBuilder: knitr, rmarkdown
+
