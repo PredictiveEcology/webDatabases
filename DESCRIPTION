@@ -20,7 +20,15 @@ Imports:
   httr,
   magrittr,
   methods,
-  utils
+  utils,
+  DBI,
+  XML,
+  tools,
+  RCurl,
+  data.table,
+  RSQLite,
+  SpaDES, 
+  plyr
 Suggests:
   knitr,
   rmarkdown,
@@ -31,4 +39,11 @@ ByteCompile: yes
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr, rmarkdown
-
+Collate: 
+    'hashDownload.R'
+    'hList.R'
+    'listWebData.R'
+    'logHash.R'
+    'hashUntar.R'
+    'hashUnzip.R'
+RoxygenNote: 6.0.1
