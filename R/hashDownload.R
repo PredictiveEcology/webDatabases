@@ -1,61 +1,71 @@
-################################################################################
-#' Download, untar and unzip file from url source log checksum value to avoid repeating action.
+#' Download files from internet using url address and untar or unzip them.
 #'
-#' This function download iles from internet using url address and untar or unzip them. To avoid downloading
-#' existing files, the function verify if files exist locally.  and compare checksum value from previous download.
+#' To avoid downloading existing files, the function verify if files exist locally,
+#' and compare checksum value from previous download.
 #'
-#' @param urls A character string. Represents the URL of file to be downloaded
-#' @param destfile A character string. Indicates the path where downloaded file is saved. Default will use the
-#'               modulePath from the sim object, if supplied with a module name, or a temporary location based on the
-#'               url of the file(s).
-#' @param sim A simList simulation object, generally produced by simInit.
+#' @param urls A character string. Represents the url of file to be downloaded.
+#'
+#' @param destfile Character string giving the path where the downloaded file is saved.
+#'                 Default will use the \code{modulePath} from the \code{sim} object,
+#'                 if supplied with a module name, or a temporary location based on the
+#'                 url of the file(s).
+#'
+#' @param sim A \code{simList} simulation object, generally produced by \code{SpaDES::simInit}.
+#'
 #' @param module A character string. Represents the names of the module to be loaded for the simulation.
-#' @param checkhash A logical argument. If TRUE, check if file exists locally and cross-check
+#'
+#' @param checkhash Logical. If \code{TRUE}, check if file exists locally and cross-check
 #'        checksum value with value logged from previous download. When checksums match, no download occurs.
 #'        When checksums don't match or file doesn't exist locally (i.e., first download), download occurs and
-#'        checksum compiles. If FALSE, file is downloaded even if it is found locally. Default is FALSE.
+#'        checksum compiles. If \code{FALSE} (default), file is downloaded even if it is found locally.
+#'
 #' @param dbHash A character string. The path to the database file where checksum value of file is logged. If the
-#'         database does not yet exist, one is created. Default is "dbHash.sqlite".
-#' @param cascade A logical argument. If TRUE, file is untar and/or unzip. Default is FALSE.
-#' @param quick A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
-#'        If FALSE, cheksum is compiled using the object. Default is FALSE.
-#' @param quiet A logical argument. If TRUE, suppress status messages (if any), and the progress bar.
+#'         database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.
 #'
-#' @return Downloaded file are stored in the destfile folder.
+#' @param cascade Logical. If \code{TRUE}, file is untar and/or unzip. Default is \code{FALSE}.
 #'
-#' @importFrom tools file_path_sans_ext file_ext
+#' @param quick Logical. If \code{TRUE}, checksum is compiled using the combination of the filename and its size.
+#'        If \code{FALSE} (default), cheksum is compiled using the object.
+#'
+#' @param quiet Logical. If \code{TRUE}, suppress status messages (if any), and the progress bar.
+#'
+#' @return Invoked for its side-effect of downloading files to the \code{destfile/} directory.
+#'
 #' @importFrom DBI dbConnect dbWriteTable dbReadTable dbExistsTable dbDisconnect
 #' @importFrom RSQLite SQLite
-#' @importFrom utils download.file
 #' @importFrom SpaDES modulePath
+#' @importFrom tools file_path_sans_ext file_ext
+#' @importFrom utils download.file
 #' @docType methods
 #' @author Melina Houle
 #' @export
 #' @rdname hashDownload
 #' @examples
-#' library(SpaDES)
-#' sim <- SpaDES::simInit(times = list(start=0.0, end=5.0),
-#'                        objects=list(),
+#' sim <- SpaDES::simInit(times = list(start = 0.0, end = 5.0),
+#'                        objects = list(),
 #'                        params = list(),
 #'                        modules = list(),
-#'                        paths = list(outputPath=tempdir()))
-#' url<-"ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/ZMekis_Vincent_2011.pdf"
+#'                        paths = list(outputPath = tempdir()))
+#' url <- "ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/ZMekis_Vincent_2011.pdf"
 #' hashDownload(urls = url, destfile = tempdir(), sim, module, checkhash = FALSE, cascade = FALSE)
-
-hashDownload<- function(urls, destfile, sim, module, checkhash = FALSE, quick = FALSE,
-                        dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE) {
+#'
+hashDownload <- function(urls, destfile, sim, module, checkhash = FALSE,
+                         quick = FALSE, dbHash = "dbHash.sqlite", cascade = FALSE,
+                         quiet = TRUE) {
   cwd <- getwd()
   if (!missing(destfile)) {
     setwd(destfile)
     on.exit(setwd(cwd))
   }
-  if(!file.exists(destfile)){
+  if (!file.exists(destfile)) {
     dir.create(destfile, showWarnings = FALSE)
   }
 
-  if(missing(destfile)) {
-    if(!missing(sim)) {
-      if(missing(module)) stop("You must provide a module name, if you provide a simList")
+  if (missing(destfile)) {
+    if (!missing(sim)) {
+      if (missing(module)) {
+        stop("You must provide a module name, if you provide a simList.")
+      }
       destfile <- file.path(modulePath(sim), module, "data")
     } else {
       destfile <- file.path(dirname(tempdir()),"data",file_path_sans_ext(basename(urls)))
@@ -63,82 +73,86 @@ hashDownload<- function(urls, destfile, sim, module, checkhash = FALSE, quick = 
   }
 
   # Crosscheck checksum value fromtable where checksum values from previous download are compiled.
-  if(checkhash){
+  if (checkhash) {
     # Connect to checksum db
-    con = dbConnect(SQLite(), dbHash)
+    con <- dbConnect(SQLite(), dbHash)
 
     # Create checksum table if it doesn't exist
-    if (!dbExistsTable(con, "checksum")){
-      dbWriteTable(con, "checksum", data.frame(Filename= character(),
-                                               checksumFile= character(),
-                                               checksumSize= character(),
+    if (!dbExistsTable(con, "checksum")) {
+      dbWriteTable(con, "checksum", data.frame(Filename = character(),
+                                               checksumFile = character(),
+                                               checksumSize = character(),
                                                algorithm = character(),
-                                               stringsAsFactors=FALSE),
+                                               stringsAsFactors = FALSE),
                                                overwrite = TRUE, field.types = NULL)
-      if(!quiet) message("hashDwd.txt has been created. ")
+      if (!quiet) message("hashDwd.txt has been created.")
     }
 
-    hfile <-dbReadTable(con, "checksum")
+    hfile <- dbReadTable(con, "checksum")
 
     # Compile checksum on local file. Empty the first time the function is used.
-    hashdata<-hList(basename(urls), destfile, quick)
+    hashdata <- hList(basename(urls), destfile, quick)
 
     # List files already properly downloaded using logged checksum
-    if(quick){
+    if (quick) {
       # Use checksum on filename and filesize
-      dwdfile<-subset(hashdata, (hashdata$checksumSize %in% hfile$checksumSize) &
-                        (hashdata$Filename %in% hfile$Filename))
-    }else{
+      dwdfile <- subset(hashdata, (hashdata$checksumSize %in% hfile$checksumSize) &
+                          (hashdata$Filename %in% hfile$Filename))
+    } else {
       # use checksum from file. Takes more time
-      dwdfile<-subset(hashdata, (hashdata$checksumFile %in% hfile$checksumFile) &
-                        (hashdata$Filename %in% hfile$Filename))
+      dwdfile <- subset(hashdata, (hashdata$checksumFile %in% hfile$checksumFile) &
+                          (hashdata$Filename %in% hfile$Filename))
     }
 
     # Substract files already downloaded from list to download
-    if (nrow(dwdfile) !=0) {
+    if (nrow(dwdfile) != 0) {
       file2dwd <- subset(urls, !basename(urls) %in% dwdfile$Filename)
-      if(length(file2dwd)!=0) {
+      if (length(file2dwd) != 0) {
         needDownload <- TRUE
-      }else{
+      } else {
         # List empty. All files downloaded
         needDownload <- FALSE
       }
-    }else{
+    } else{
       # No files previously download. Need download.
       file2dwd <- urls
       needDownload <- TRUE
-      if(!quiet)  message("Proceeding to download. checksum will be recorded")
+      if (!quiet)  message("Proceeding to download. checksum will be recorded")
     }
 
     #DOWNLOAD
-    if(needDownload){
-      lapply(file2dwd, function(x) download.file(x, file.path(destfile, basename(x)),
-                                                 method = "auto", mode="wb", quiet))
+    if (needDownload) {
+      lapply(file2dwd, function(x) {
+        download.file(x, file.path(destfile, basename(x)), method = "auto", mode = "wb", quiet)
+      })
       # Logged checksum value
-      hashdata<-hList(basename(file2dwd), destfile, quick)
+      hashdata < -hList(basename(file2dwd), destfile, quick)
       logHash(hashdata, dbHash)
       dbDisconnect(con)
-    }else{
-      if(!quiet)  message("All files were previously downloaded. No download will occur.")
+    } else {
+      if (!quiet) message("All files were previously downloaded. No download will occur.")
     }
-
-  }else{
+  } else {
     # checksum = FALSE -> Download data only
-    lapply(urls, function(x) download.file(x, file.path(destfile, basename(x)),
-                                          method = "auto", mode="wb", quiet))
+    lapply(urls, function(x) {
+      download.file(x, file.path(destfile, basename(x)), method = "auto", mode = "wb", quiet)
+    })
   }
 
-  file.list <- file.path(destfile,basename(urls))
+  file.list <- file.path(destfile, basename(urls))
   # Cascade = TRUE will untar / unzip all files
-  if (cascade){
+  if (cascade) {
     # Unzip
-    invisible(lapply(file.list,  function(x) if (file_ext(x) == "zip"){
-      hashUnzip(x, checkhash = checkhash, quick = quick, dbHash = dbHash, destfile)
-
+    invisible(lapply(file.list,  function(x) {
+      if (file_ext(x) == "zip") {
+        hashUnzip(x, checkhash = checkhash, quick = quick, dbHash = dbHash, destfile)
+      }
     }))
     # Untar and unzip
-    invisible(lapply(file.list, function(x) if (file_ext(x) == "tar") {
-      hashUntar(x, checkhash = checkhash, quick = quick, dbHash = dbHash, destfile)
+    invisible(lapply(file.list, function(x) {
+      if (file_ext(x) == "tar") {
+        hashUntar(x, checkhash = checkhash, quick = quick, dbHash = dbHash, destfile)
+      }
     }))
   }
   return(sim)

@@ -1,8 +1,10 @@
 Package: webDatabases
 Type: Package
 Title: Find And Download Canadian Forestry Data
+Description: A set of functions for finding and downloading web datasets,
+    with an initial focus on datasets relevant for work in Canadian forests.
 Version: 0.0.1
-Date: 2017-03-15
+Date: 2017-06-06
 Authors@R: c(
     person(c("Alex", "M"), "Chubaty", email = "alexander.chubaty@canada.ca",
     role = c("aut", "cre")),
@@ -13,8 +15,6 @@ Authors@R: c(
     person("Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources Canada",
     role = "cph")
     )
-Description: A set of functions for finding and downloading web datasets,
-    with an initial focus on datasets relevant for work in Canadian forests.
 Imports:
   digest,
   httr,

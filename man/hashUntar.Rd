@@ -42,7 +42,7 @@ url <- "ftp://knn4ftp:knn4ftp@tree.nfis.org/kNN-LandCover.tar"
 destfile <- tempdir()
 hashDownload(url, destfile, sim, module, destfile, checkhash = FALSE, cascade = FALSE)
 tar<- file.path(destfile, basename(url))
-hashUntar(tar, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE , destfile)
+hashUntar(tar, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE)
 }
 \author{
 Melina Houle

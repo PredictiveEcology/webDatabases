@@ -8,24 +8,28 @@
 logHash(hashdata, dbHash = "dbHash.sqlite")
 }
 \arguments{
-\item{hashdata}{A dataframe containing filename, checksumFile, checksumSize and algorithm for each file are stored.}
+\item{hashdata}{A \code{data.frame} containing \code{filename}, \code{checksumFile},
+\code{checksumSize} and \code{algorithm} for each file are stored.}
 
-\item{dbHash}{A character string indicating the name of the database where checksum values are stored. If the database
-does not exists, the function will create it and checksum will be compiled. Default is "dbHash.sqlite".}
+\item{dbHash}{A character string indicating the name of the database where checksum values are stored.
+If the database does not exist, the function will create it and checksum will be computed.
+Default is \code{"dbHash.sqlite"}
+.}
 }
 \value{
-The logHash function log filenames and checksum value into the SQL database
+Invoked for its side-effect of logging filenames and checksum values into the SQL database.
 }
 \description{
-Log compiled checksum values from a specific file into a predetermine dbHash sqLite database following SQL language
-requirements.
+Log compiled checksum values from a specific file into a predetermine dbHash
+sqlite database following SQL language requirements.
 }
 \examples{
 destfile <-tempdir()
-dbHash <- file.path(destfile,"dbHash.sqlite")
+dbHash <- file.path(destfile, "dbHash.sqlite")
 file.list<- list.files(destfile)
-hfile <-hList(file.list, destfile, quick = TRUE)
-logHash(hfile,dbHash)
+hfile <- hList(file.list, destfile, quick = TRUE)
+logHash(hfile, dbHash)
+
 }
 \author{
 Melina Houle
