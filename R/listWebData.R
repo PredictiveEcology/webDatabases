@@ -44,6 +44,7 @@ listWebData <- function(urlTble, datasetName, dfile) {
   if (missing(dfile)) dfile <- "all"
   setkey(urlTble, "dataset")
   password <- as.character(urlTble[.(datasetName)][, 'password', with = FALSE])
+  if (password == "NA") password <- NA_character_
   url2data <- as.character(urlTble[.(datasetName)][, 'url', with = FALSE])
 
   # Split url into typeConn(ftp, http) and address.
