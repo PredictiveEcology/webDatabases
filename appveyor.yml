@@ -74,6 +74,7 @@ notifications:
  - provider: Email
    to:
      - alex.chubaty@gmail.com
+     - houle.melina@gmail.com
    subject: 'webDatabases: r-appveyor build {{status}}'
    message: "https://ci.appveyor.com/project/PredictiveEcology/webDatabases"
    on_build_success: false
