@@ -32,9 +32,8 @@ listWebData<-function(urlTble, datasetName, dfile){
                             between url, datasetName and password")
   if(missing(datasetName)) stop("You must provide dataset name to access url of interest")
   if(missing(dfile)) dfile = "all"
-
+  browser()
   setkey(urlTble, "dataset")
-  #password<- urlTble[which(urlTble$dataset == datasetName), 'password']
   password<- as.character(urlTble[.(datasetName)][, 'password', with=FALSE])
   url2data<- as.character(urlTble[.(datasetName)][, 'url', with=FALSE])
 

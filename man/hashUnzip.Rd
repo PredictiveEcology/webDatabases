@@ -3,14 +3,14 @@
 \docType{methods}
 \name{hashUnzip}
 \alias{hashUnzip}
-\title{Extract files from a zip archive downloaded}
+\title{Extract files from a zip archive downloaded and log checksum value to avoid repeating action.}
 \usage{
-hashUnzip(zipfile, dir, checkhash = TRUE, quick = TRUE, dbHash)
+hashUnzip(zipfile, destfile, checkhash = TRUE, quick = TRUE, dbHash)
 }
 \arguments{
-\item{zipfile}{A character vector containing path to a zipfile.}
+\item{zipfile}{A character vector. Contain path to a zipfile.}
 
-\item{dir}{A character string representing the output directory path.}
+\item{destfile}{A character string. Represents the path where unzip file is saved.}
 
 \item{checkhash}{A logical argument. If TRUE, check if unzip file is found locally and cross-check its checksum value
 with value logged in dbHash from previous unzip event. When checksums match, a message raises indicating the file
@@ -20,12 +20,15 @@ checksum compiles. If FALSE, unzip occurs even if the files exist locally. Defau
 \item{quick}{A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
 If FALSE, cheksum is compiled using the object. Default is FALSE.}
 
-\item{dbHash}{A character string. The path to the database file where checksum values are logged. If the named
+\item{dbHash}{A character string. The path to the database file where file checksum value is logged. If the named
 database does not yet exist, one is created. Default is "dbHash.sqlite".}
 }
+\value{
+Unzipped file is saved in a subfolder using the zipfile basename in the destfile folder.
+}
 \description{
-This function unzip dataset previously downloaded from url. Prior to unzip, the function can check if unzip
-was previously performed (unzip file exists locally).
+This function unzip dataset previously downloaded from url. Prior to unzip, the function check if
+unzip was previously performed (unzip file exists locally).
 }
 \examples{
 library(SpaDES)
@@ -39,7 +42,7 @@ algo = "xxhash64"
 destfile <- tempdir()
 hashDownload(url, destfile, sim, module, cascade = FALSE)
 zip <- file.path(destfile, basename(url))
-hashUnzip(zip, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE, destfile)
+hashUnzip(zip, destfile, checkhash = FALSE,  quick = FALSE, dbHash = "dbHash.sqlite")
 }
 \author{
 Melina Houle

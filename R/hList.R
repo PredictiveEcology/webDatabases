@@ -1,18 +1,19 @@
 ################################################################################
-#' Extract checksum value
+#' Extract checksum value from file
 #'
-#' The function hList extract checksum value from a list of file and return the value its respective filename as an R
-#' object. The function is for now using the algorithm 'xxhash64'.Checksum is compiled using the digest function.
+#' The function stores in a dataframe the filename and its checksum value. Checksum is compiled
+#' using the digest function (see Details of \code{\link[digest]{digest}}).
 #' @rdname hList
-#' @param fList A vector listing object from which we want to extract chekcsum value.
-#' @param dir A character string representing path to file.
-#' @param quick A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
-#'        If FALSE, cheksum is compiled using the object. Default is FALSE.
-#' @param csalgorithm A character string representing the algorithms used in the digest function. Default is "xxhash64".
-#'
-#' @return The hList function returns a dataframe where filename, checksum value from the object (checksumFile), checksum
-#'         value from the combination of filename and file size and the algorithm used to compute checksum values are stored.
-#'
+#' @param fList A character vector representing filename
+#' @param destfile A character string giving file to path to file.
+#' @param quick A logical argument. If TRUE, checksum is compiled using the combination
+#'              of the filename and its size. If FALSE, cheksum is compiled using the object.
+#'              Default is FALSE.
+#' @param csalgorithm A character string representing the algorithms used by the digest
+#'              function. Default is "xxhash64".
+#' @return The hList function returns a dataframe where filename, checksum value from the
+#'         object (checksumFile), checksum value from the combination of filename and file
+#'         size and the algorithm used to compute checksum values are stored.
 #' @importFrom digest digest
 #' @export
 #' @docType methods
@@ -21,11 +22,10 @@
 #' @examples
 #' outdir<- tempdir()
 #' file.list<- list.files(outdir)
-#' hfile <-hList(file.list, dir = outdir, quick = TRUE)
-hList <-function(fList, dir, quick = TRUE, csalgorithm = "xxhash64"){
-  path2file <- unlist(lapply(fList, function(x){file.path(dir, x)}))
-  fileNames<- path2file[!file.info(path2file)$isdir]
-  fList <- fileNames[file.exists(fileNames), drop = FALSE]
+#' hfile <-hList(file.list, destfile = outdir, quick = TRUE)
+hList <-function(fList, destfile, quick = TRUE, csalgorithm = "xxhash64"){
+  path2file <- lapply(file.path(destfile, fList), function(x) {x[!file.info(x)$isdir]})
+  fList <- unlist(lapply(path2file, function(x) {x[file.exists(x), drop = FALSE]}))
 
   if (length(fList)==0){
     hdata<- data.frame(Filename=character(),  checksumFile=character(),
@@ -34,15 +34,15 @@ hList <-function(fList, dir, quick = TRUE, csalgorithm = "xxhash64"){
     # Extract filenames and hash value from files downloaded locally.
     if (!quick){
       # checksum on file
-      htag <- lapply(basename(fList), function(i) digest(file =file.path(dir, i), algo = csalgorithm))
+      htag <- lapply(basename(fList), function(i) digest(file =file.path(destfile, i), algo = csalgorithm))
 
       # checksum on folder using folder name and size
-      flst <- list.files(dir)
-      flst <- file.path(dir,flst)
+      flst <- list.files(destfile)
+      flst <- file.path(destfile,flst)
       allFiles <- lapply(flst, function(x) {list(basename(x), file.info(x)[,"size"])})
 
       hfolder <- digest(allFiles, algo = csalgorithm)
-      checkfolder<-data.frame(Filename=basename(dir), checksumFile= NA,
+      checkfolder<-data.frame(Filename=basename(destfile), checksumFile= NA,
                               checksumSize=unlist(hfolder), algorithm = csalgorithm, stringsAsFactors=FALSE)
 
       # checksum on files using filename and size
@@ -55,12 +55,12 @@ hList <-function(fList, dir, quick = TRUE, csalgorithm = "xxhash64"){
       hdata <- rbind(checkfiles, checkfolder)
     } else{
       # checksum on folder using folder name and size
-      flst <- list.files(dir)
-      flst <- file.path(dir,flst)
+      flst <- list.files(destfile)
+      flst <- file.path(destfile,flst)
       allFiles <- lapply(flst, function(x) {list(basename(x), file.info(x)[,"size"])})
 
       hfolder <- digest(allFiles, algo= csalgorithm)
-      checkfolder<-data.frame(Filename=basename(dir), checksumFile= NA,
+      checkfolder<-data.frame(Filename=basename(destfile), checksumFile= NA,
                               checksumSize=unlist(hfolder), algorithm = csalgorithm, stringsAsFactors=FALSE)
       # checksum on files using ilename and size
       fls<- subset(allFiles, unlist(allFiles)[ c(TRUE,FALSE) ] %in% basename(fList))

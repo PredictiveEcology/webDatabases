@@ -28,7 +28,9 @@ Imports:
   data.table,
   RSQLite,
   SpaDES, 
-  plyr
+  plyr,
+  raster, 
+  sp
 Suggests:
   knitr,
   rmarkdown,

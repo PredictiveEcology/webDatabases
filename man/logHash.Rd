@@ -5,26 +5,26 @@
 \alias{logHash}
 \title{Log checksum from downloaded files into a SQLite database}
 \usage{
-logHash(hashdata, dbHashPath)
+logHash(hashdata, dbHash = "dbHash.sqlite")
 }
 \arguments{
 \item{hashdata}{A dataframe containing filename, checksumFile, checksumSize and algorithm for each file are stored.}
 
-\item{dbHashPath}{A character string indicating the name of the database where checksum values are stored. If the database
+\item{dbHash}{A character string indicating the name of the database where checksum values are stored. If the database
 does not exists, the function will create it and checksum will be compiled. Default is "dbHash.sqlite".}
 }
 \value{
-The logHash function  log filenames and checksum value into the SQL database
+The logHash function log filenames and checksum value into the SQL database
 }
 \description{
 Log compiled checksum values from a specific file into a predetermine dbHash sqLite database following SQL language
 requirements.
 }
 \examples{
-setwd(tempdir())
-dbHash <- "dbHash.sqlite"
-file.list<- list.files()
-hfile <-hList(file.list, dir = tempdir())
+destfile <-tempdir()
+dbHash <- file.path(destfile,"dbHash.sqlite")
+file.list<- list.files(destfile)
+hfile <-hList(file.list, destfile, quick = TRUE)
 logHash(hfile,dbHash)
 }
 \author{

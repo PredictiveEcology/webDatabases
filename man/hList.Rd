@@ -3,32 +3,35 @@
 \docType{methods}
 \name{hList}
 \alias{hList}
-\title{Extract checksum value}
+\title{Extract checksum value from file}
 \usage{
-hList(fList, dir, quick = TRUE, csalgorithm = "xxhash64")
+hList(fList, destfile, quick = TRUE, csalgorithm = "xxhash64")
 }
 \arguments{
-\item{fList}{A vector listing object from which we want to extract chekcsum value.}
+\item{fList}{A character vector representing filename}
 
-\item{dir}{A character string representing path to file.}
+\item{destfile}{A character string giving file to path to file.}
 
-\item{quick}{A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
-If FALSE, cheksum is compiled using the object. Default is FALSE.}
+\item{quick}{A logical argument. If TRUE, checksum is compiled using the combination
+of the filename and its size. If FALSE, cheksum is compiled using the object.
+Default is FALSE.}
 
-\item{csalgorithm}{A character string representing the algorithms used in the digest function. Default is "xxhash64".}
+\item{csalgorithm}{A character string representing the algorithms used by the digest
+function. Default is "xxhash64".}
 }
 \value{
-The hList function returns a dataframe where filename, checksum value from the object (checksumFile), checksum
-        value from the combination of filename and file size and the algorithm used to compute checksum values are stored.
+The hList function returns a dataframe where filename, checksum value from the
+        object (checksumFile), checksum value from the combination of filename and file
+        size and the algorithm used to compute checksum values are stored.
 }
 \description{
-The function hList extract checksum value from a list of file and return the value its respective filename as an R
-object. The function is for now using the algorithm 'xxhash64'.Checksum is compiled using the digest function.
+The function stores in a dataframe the filename and its checksum value. Checksum is compiled
+using the digest function (see Details of \code{\link[digest]{digest}}).
 }
 \examples{
 outdir<- tempdir()
 file.list<- list.files(outdir)
-hfile <-hList(file.list, dir = outdir, quick = TRUE)
+hfile <-hList(file.list, destfile = outdir, quick = TRUE)
 }
 \author{
 Melina Houle

@@ -6,22 +6,22 @@
 #'
 #' @param hashdata A dataframe containing filename, checksumFile, checksumSize and algorithm for each file are stored.
 #'
-#' @param dbHashPath A character string indicating the name of the database where checksum values are stored. If the database
+#' @param dbHash A character string indicating the name of the database where checksum values are stored. If the database
 #'                  does not exists, the function will create it and checksum will be compiled. Default is "dbHash.sqlite".
-#' @return The logHash function  log filenames and checksum value into the SQL database
+#' @return The logHash function log filenames and checksum value into the SQL database
 #' @importFrom DBI dbConnect dbExistsTable dbWriteTable dbSendQuery dbFetch dbClearResult dbDisconnect
 #' @importFrom RSQLite SQLite
 #' @export
 #' @docType methods
 #' @author Melina Houle
 #' @examples
-#' setwd(tempdir())
-#' dbHash <- "dbHash.sqlite"
-#' file.list<- list.files()
-#' hfile <-hList(file.list, dir = tempdir())
+#' destfile <-tempdir()
+#' dbHash <- file.path(destfile,"dbHash.sqlite")
+#' file.list<- list.files(destfile)
+#' hfile <-hList(file.list, destfile, quick = TRUE)
 #' logHash(hfile,dbHash)
-logHash<-function(hashdata,dbHashPath) {
-  con <- dbConnect(SQLite(), dbHashPath)
+logHash<-function(hashdata, dbHash="dbHash.sqlite") {
+  con <- dbConnect(SQLite(), dbHash)
   if (!dbExistsTable(con, "checksum")){
     dbWriteTable(con, "checksum", data.frame(Filename= character(),checksumFile= character(),
                                              checksumSize= character(), algorithm = character(),

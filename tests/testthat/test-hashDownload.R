@@ -17,7 +17,7 @@ test_that("test-hashDownload", {
 
   outdir<-tempdir()
   url<-"ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/ZMekis_Vincent_2011.pdf"
-  dbHash = "dbHash.sqlite"
+  dbHash = file.path(outdir, "dbHash.sqlite")
   algo = "xxhash64"
   sim <- SpaDES::simInit(times = list(start = 2010.0, end = 2020.0, timeunit = "year"),
                          params = list(),
@@ -35,13 +35,12 @@ test_that("test-hashDownload", {
 
   # Run hashDownload
   hashDownload(url, outdir, sim, module, checkhash = FALSE, quick = FALSE,
-                       dbHash = "dbHash.sqlite", cascade= FALSE )
+                       dbHash = dbHash, cascade= FALSE)
 
   # Test if download occured
   expect_true(file.exists(file.path(outdir, basename(url))))
 
-
-  # Test checkhash argument
+    # Test checkhash argument
   # DB shouldn't exist.
   expect_false(file.exists(file.path(outdir, dbHash)))
 
@@ -50,10 +49,10 @@ test_that("test-hashDownload", {
           dbHash = dbHash , cascade= FALSE)
 
   # Test if database exist
-  expect_true(file.exists(file.path(outdir, dbHash)))
+  expect_true(file.exists(dbHash))
 
   # Check logged checksum with quick = TRUE.
-  con = dbConnect(RSQLite::SQLite(), file.path(outdir,dbHash))
+  con = dbConnect(RSQLite::SQLite(), dbHash)
   hfile <-dbReadTable(con, "checksum")
   # Test if filename logged in db
   loggedFilename <- hfile[hfile$Filename == basename(url),1]
@@ -75,15 +74,19 @@ test_that("test-hashDownload", {
   hashDownload(url, outdir, sim, module, checkhash = TRUE, quick = TRUE,
           dbHash = dbHash , cascade= FALSE)
 
-  # Delete entry from db
+  # Delete checksum from db
   todelete <- dbSendQuery(con, " DELETE FROM checksum WHERE Filename = 'ZMekis_Vincent_2011.pdf'")
   dbClearResult(todelete)
+  # Make sure entry is deleted
+  hfile <-dbReadTable(con, "checksum")
+  loggedFilename <- hfile[hfile$Filename == basename(url),1]
+  expect_false(isTRUE(loggedFilename==basename(url)))
 
-  # Test hashDownload. Should redownload because checksum is missing
+  # Test hashDownload. Should redownload because checkhash is TRUE and checksum is missing
   hashDownload(url, outdir, sim, module, checkhash = TRUE, quick = TRUE,
           dbHash = dbHash , cascade= FALSE)
 
-  # Test hashDownload. Shouldn't redownload. File already exists.
+  # Test hashDownload. Shouldn't redownload. File already exists and checksum is logged.
   hashDownload(url, outdir, sim, module, checkhash = TRUE,
           dbHash = dbHash , cascade= FALSE, quick = TRUE)
 
@@ -99,7 +102,7 @@ test_that("test-hashDownload", {
   hashDownload(url, outdir, sim, module, checkhash = TRUE, quick = FALSE,
           dbHash = dbHash , cascade= FALSE)
 
-  con = dbConnect(RSQLite::SQLite(), file.path(outdir,dbHash))
+  con = dbConnect(RSQLite::SQLite(), dbHash)
   hfile <-dbReadTable(con, "checksum")
 
   logchecksumfile<- hfile[which(hfile$Filename == basename(url)), 'checksumFile']

@@ -1,20 +1,20 @@
 ################################################################################
-#' Extract files from a tar archive downloaded
+#' Extract files from a tar archive downloaded and log checksum value to avoid repeating action.
 #'
-#' This function untar and unzip dataset previously downloaded from url. Prior to untar, the function can check if untar
-#' was previously performed (untar/unzip files exist locally).
+#' This function untar and unzip files. Prior to untar, the function check if untar
+#' was previously performed (untarred/unzipped file exist locally).
 #'
-#' @param tarfile A character vector containing path to tarfile.
-#' @param checkhash A logical argument. If TRUE, check if untar/unzip files are found locally and cross-check their checksum value
-#'        with value logged in dbHash from previous untar/unzip event. When checksums match, a message raises indicating the files
-#'        are already properly untar/unzip. When checksums don't match or untar/unzip files don't exist locally, untar/unzip occurs and
-#'        checksum compiles. If FALSE, untar/unzip occurs even if the files exist locally. Default is FALSE.
-#' @param dbHash A character string. The path to the database file where checksum values are logged If the named
-#'        database does not yet exist, one is created. Default is "dbHash.sqlite".
-#' @param quick A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
-#'        If FALSE, cheksum is compiled using the object. Default is FALSE.
-#' @param dir A character string representing path to output directory.
-#'
+#' @param tarfile A character vector.  Contains tarfile path.
+#' @param destfile A character string. Represents the path where untar file is saved.
+#' @param checkhash A logical argument. If TRUE, check if untarred/unzipped file exists locally
+#'                  and cross-check checksum value with logged checksum from previous untar event.
+#'                  When checksums don't match or file doesn't exist locally, untar occurs and
+#'                  checksum compiles. If FALSE, file is untarred Default is FALSE.
+#' @param dbHash A character string. The path to the database file where checksum value of file is logged.
+#'               If the database does not yet exist, one is created. Default is "dbHash.sqlite".
+#' @param quick A logical argument. If TRUE, checksum is compiled using the combination of the filename and
+#'              its size. If FALSE, cheksum is compiled using the object. Default is FALSE.
+#' @return Untarred/unzipped file is saved in a subfolder using the tarfile basename in the destfile folder.
 #' @importFrom utils untar
 #' @importFrom tools file_path_sans_ext
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
@@ -34,18 +34,29 @@
 #' destfile <- tempdir()
 #' hashDownload(url, destfile, sim, module, destfile, checkhash = FALSE, cascade = FALSE)
 #' tar<- file.path(destfile, basename(url))
-#' hashUntar(tar, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE , destfile)
-hashUntar <-function(tarfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick=FALSE, dir){
-  subdir <- dirname(tarfile)
+#' hashUntar(tar, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE)
+hashUntar <-function(tarfile, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick=FALSE){
   fx<- file_path_sans_ext(basename(tarfile))
   if(checkhash){
+    if(missing(dbHash)) {
+      stop("You must provide a name to database where checksum are or will be stored")
+    }
     # Crosscheck with previous download
-    con = dbConnect(SQLite(), file.path(dir,dbHash))
+    con = dbConnect(SQLite(), dbHash)
+    if (!dbExistsTable(con, "checksum")){
+      dbWriteTable(con, "checksum", data.frame(Filename= character(),
+                                               checksumFile= character(),
+                                               checksumSize= character(),
+                                               algorithm = character(),
+                                               stringsAsFactors=FALSE),
+                   overwrite = TRUE, field.types = NULL)
+    }
+
     hfile<-hfile <-dbReadTable(con, "checksum")
 
     # output directory exists
-    fileNames<-list.files(file.path(subdir,fx))
-    dataPath <- file.path(subdir,fx)
+    fileNames<-list.files(file.path(destfile,fx))
+    dataPath <- file.path(destfile,fx)
 
     if(!length(fileNames)==0) {
       hashdata<-hList(basename(fileNames), dataPath, quick)
@@ -76,30 +87,30 @@ hashUntar <-function(tarfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick
 
     if(needUntar){
       # Untar
-      untar(file.path(subdir,basename(tarfile)), exdir = file.path(subdir, fx))
+      untar(tarfile, exdir = file.path(destfile, fx))
 
       # Log checksum
-      fileNames<-list.files(file.path(subdir,fx))
-      dataPath <- file.path(subdir,fx)
+      fileNames<-list.files(file.path(destfile,fx))
+      dataPath <- file.path(destfile,fx)
       checksum<-hList(fileNames, dataPath, quick)
       logHash(checksum, dbHash)
 
       # Unzip and checksum
       file.list <- unlist(lapply(fileNames, function(x){file.path(dataPath, x)}))
       lapply(file.list, function(i) if (file_ext(i) == "zip") {
-        hashUnzip(i, checkhash = checkhash, quick = quick, dbHash = dbHash, dataPath)})
+        hashUnzip(i, dataPath, checkhash = checkhash, quick = quick, dbHash = dbHash)})
     }
     dbDisconnect(con)
   }else{
     #Checkhash = FALSE. Untar and unzip only. No cheksum.
-    untar(file.path(subdir,basename(tarfile)), exdir = file.path(subdir, fx))
+    untar(tarfile, exdir = file.path(destfile, fx))
 
     # Unzip
-    fileNames<-list.files(file.path(subdir,fx))
-    dataPath <- file.path(subdir,fx)
+    fileNames<-list.files(file.path(destfile,fx))
+    dataPath <- file.path(destfile,fx)
     file.list <- unlist(lapply(fileNames, function(x){file.path(dataPath, x)}))
     lapply(file.list, function(i) if (file_ext(i) == "zip") {
-      hashUnzip(i, checkhash = checkhash, quick = quick, dbHash = dbHash, dataPath)})
+      hashUnzip(i, dataPath, checkhash = checkhash, quick = quick, dbHash = file.path(destfile,dbHash))})
   }
 }
 

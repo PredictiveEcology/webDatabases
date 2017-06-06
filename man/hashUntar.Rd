@@ -3,30 +3,33 @@
 \docType{methods}
 \name{hashUntar}
 \alias{hashUntar}
-\title{Extract files from a tar archive downloaded}
+\title{Extract files from a tar archive downloaded and log checksum value to avoid repeating action.}
 \usage{
-hashUntar(tarfile, checkhash = FALSE, dbHash = "dbHash.sqlite",
-  quick = FALSE, dir)
+hashUntar(tarfile, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite",
+  quick = FALSE)
 }
 \arguments{
-\item{tarfile}{A character vector containing path to tarfile.}
+\item{tarfile}{A character vector.  Contains tarfile path.}
 
-\item{checkhash}{A logical argument. If TRUE, check if untar/unzip files are found locally and cross-check their checksum value
-with value logged in dbHash from previous untar/unzip event. When checksums match, a message raises indicating the files
-are already properly untar/unzip. When checksums don't match or untar/unzip files don't exist locally, untar/unzip occurs and
-checksum compiles. If FALSE, untar/unzip occurs even if the files exist locally. Default is FALSE.}
+\item{destfile}{A character string. Represents the path where untar file is saved.}
 
-\item{dbHash}{A character string. The path to the database file where checksum values are logged If the named
-database does not yet exist, one is created. Default is "dbHash.sqlite".}
+\item{checkhash}{A logical argument. If TRUE, check if untarred/unzipped file exists locally
+and cross-check checksum value with logged checksum from previous untar event.
+When checksums don't match or file doesn't exist locally, untar occurs and
+checksum compiles. If FALSE, file is untarred Default is FALSE.}
 
-\item{quick}{A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
-If FALSE, cheksum is compiled using the object. Default is FALSE.}
+\item{dbHash}{A character string. The path to the database file where checksum value of file is logged.
+If the database does not yet exist, one is created. Default is "dbHash.sqlite".}
 
-\item{dir}{A character string representing path to output directory.}
+\item{quick}{A logical argument. If TRUE, checksum is compiled using the combination of the filename and
+its size. If FALSE, cheksum is compiled using the object. Default is FALSE.}
+}
+\value{
+Untarred/unzipped file is saved in a subfolder using the tarfile basename in the destfile folder.
 }
 \description{
-This function untar and unzip dataset previously downloaded from url. Prior to untar, the function can check if untar
-was previously performed (untar/unzip files exist locally).
+This function untar and unzip files. Prior to untar, the function check if untar
+was previously performed (untarred/unzipped file exist locally).
 }
 \examples{
 library(SpaDES)

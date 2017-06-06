@@ -1,28 +1,27 @@
 ################################################################################
-#' Download, unzip, untar data from an url
+#' Download, untar and unzip file from url source log checksum value to avoid repeating action.
 #'
-#' This function download and untar and/or unzip dataset using url link from available dataset. Prior to download, the function
-#' can check if the files are already locally by using the checksum value available in dbHash.sqlite database.
+#' This function download iles from internet using url address and untar or unzip them. To avoid downloading
+#' existing files, the function verify if files exist locally.  and compare checksum value from previous download.
 #'
-#' @param urls A character string naming the URL of a resource to be downloaded
-#' @param destfile A character string. Indicate the name where the downloaded file is saved. Default will use the
+#' @param urls A character string. Represents the URL of file to be downloaded
+#' @param destfile A character string. Indicates the path where downloaded file is saved. Default will use the
 #'               modulePath from the sim object, if supplied with a module name, or a temporary location based on the
 #'               url of the file(s).
 #' @param sim A simList simulation object, generally produced by simInit.
-#' @param module A character string representing the names of the module to be loaded for the simulation.
-#' @param checkhash A logical argument. If TRUE, check if file is found locally and cross-check its checksum value
-#'        with value logged in dbHash from previous download. When checksums match, a message raises indicating the file
-#'        is properly downloaded. No download occurs. When checksums don't match or file doesn't exist locally
-#'        (first download), download occurs and checksum compiles. If FALSE, download occurs even if the file exists
-#'        locally. Default is FALSE.
-#' @param dbHash A character string. The path to the database file where checksum values are logged. If the named
-#'        database does not yet exist, one is created. Default is "dbHash.sqlite".
+#' @param module A character string. Represents the names of the module to be loaded for the simulation.
+#' @param checkhash A logical argument. If TRUE, check if file exists locally and cross-check
+#'        checksum value with value logged from previous download. When checksums match, no download occurs.
+#'        When checksums don't match or file doesn't exist locally (i.e., first download), download occurs and
+#'        checksum compiles. If FALSE, file is downloaded even if it is found locally. Default is FALSE.
+#' @param dbHash A character string. The path to the database file where checksum value of file is logged. If the
+#'         database does not yet exist, one is created. Default is "dbHash.sqlite".
 #' @param cascade A logical argument. If TRUE, file is untar and/or unzip. Default is FALSE.
 #' @param quick A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
 #'        If FALSE, cheksum is compiled using the object. Default is FALSE.
 #' @param quiet A logical argument. If TRUE, suppress status messages (if any), and the progress bar.
 #'
-#' @return Data will be stored in the subfolder using the basename of the url in a data folder.
+#' @return Downloaded file are stored in the destfile folder.
 #'
 #' @importFrom tools file_path_sans_ext file_ext
 #' @importFrom DBI dbConnect dbWriteTable dbReadTable dbExistsTable dbDisconnect
@@ -41,7 +40,7 @@
 #'                        modules = list(),
 #'                        paths = list(outputPath=tempdir()))
 #' url<-"ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/ZMekis_Vincent_2011.pdf"
-#' dwdData(urls = url, destfile = tempdir(), sim, module, checkhash = FALSE, cascade = FALSE)
+#' hashDownload(urls = url, destfile = tempdir(), sim, module, checkhash = FALSE, cascade = FALSE)
 
 hashDownload<- function(urls, destfile, sim, module, checkhash = FALSE, quick = FALSE,
                         dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE) {
@@ -50,7 +49,6 @@ hashDownload<- function(urls, destfile, sim, module, checkhash = FALSE, quick = 
     setwd(destfile)
     on.exit(setwd(cwd))
   }
-
   if(!file.exists(destfile)){
     dir.create(destfile, showWarnings = FALSE)
   }
@@ -67,7 +65,7 @@ hashDownload<- function(urls, destfile, sim, module, checkhash = FALSE, quick = 
   # Crosscheck checksum value fromtable where checksum values from previous download are compiled.
   if(checkhash){
     # Connect to checksum db
-    con = dbConnect(SQLite(), file.path(destfile,dbHash))
+    con = dbConnect(SQLite(), dbHash)
 
     # Create checksum table if it doesn't exist
     if (!dbExistsTable(con, "checksum")){
@@ -118,7 +116,7 @@ hashDownload<- function(urls, destfile, sim, module, checkhash = FALSE, quick = 
                                                  method = "auto", mode="wb", quiet))
       # Logged checksum value
       hashdata<-hList(basename(file2dwd), destfile, quick)
-      logHash(hashdata, file.path(destfile,dbHash))
+      logHash(hashdata, dbHash)
       dbDisconnect(con)
     }else{
       if(!quiet)  message("All files were previously downloaded. No download will occur.")
