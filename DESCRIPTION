@@ -15,6 +15,7 @@ Authors@R: c(
     person("Her Majesty the Queen in Right of Canada, as represented by the Minister of Natural Resources Canada",
     role = "cph")
     )
+Depends: R (>= 3.3.0)
 Imports:
   digest,
   httr,
