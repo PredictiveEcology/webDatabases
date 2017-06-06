@@ -1,8 +1,5 @@
 test_that("test-hashDownload", {
 
-  #install.packages("C:/MelinaStuff/Contracts/SpaDES/local_github/SpaDES_MH")
-  #require(SpaDES, lib.loc = "C:/MelinaStuff/Contracts/SpaDES/local_github/SpaDES_MH")
-  #library(SpaDES, lib.loc = "C:/Users/mehou10/Documents/R-dev")
   library(SpaDES)
   library(DBI)
   library(digest)
