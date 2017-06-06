@@ -31,7 +31,8 @@ using the digest function (see Details of \code{\link[digest]{digest}}).
 \examples{
 outdir<- tempdir()
 file.list<- list.files(outdir)
-hfile <-hList(file.list, destfile = outdir, quick = TRUE)
+hfile <- hList(file.list, destfile = outdir, quick = TRUE)
+
 }
 \author{
 Melina Houle
