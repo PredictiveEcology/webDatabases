@@ -18,10 +18,13 @@ username/password to access, extract and download data.
 }
 \examples{
 library(data.table)
-dt<- data.table(dataset = c("NFDB"),
-               url = "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/",
-               password= NA,
-               files = "NFDB_poly.zip")
+dt<- data.table(
+  dataset = c("NFDB"),
+  url = "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/",
+  password = NA,
+  files = "NFDB_poly.zip"
+)
+
 }
 \author{
 Melina Houle

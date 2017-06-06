@@ -1,16 +1,22 @@
 ##################################################################################
 #' Creates a vector of url to download based on datasetName and filename.
 #'
-#' Browse http and ftp site of interest using dataset name and store available dataset in a list. To list the data using
-#' dataset name, a data.table containing datasetName, URL of interest and password need to be previously created.
+#' Browse http and ftp site of interest using dataset name and store available dataset in a list.
+#' To list the data using dataset name, a \code{data.table} containing \code{datasetName},
+#' url of interest and password need to be previously created.
+#'
 #' @rdname listWebData
-#' @param urlTble A data.table that stores available dataset name, url, password and filenames found within each dataset.
-#'        urltble is provided within the package as urls object.
-#' @param datasetName A character string. Represent the dataset of interest for download. datasetName allow to derived
-#'        url and password from the urltble.
-#' @param dfile A character string representing filename of interest to download. When missing, all files from associated
-#'         url given will be listed.
-#' @return Vector of url to download
+#' @param urlTble A \code{data.table} that stores available dataset name, url,
+#'                password and filenames found within each dataset.
+#'                \code{urltble} is provided within the package as urls object.
+#'
+#' @param datasetName Character string. Represent the dataset of interest for download.
+#'                    \code{datasetName} allow to derived url and password from the \code{urltble}.
+#'
+#' @param dfile Character string representing filename of interest to download.
+#'              When missing, all files from associated url given will be listed.
+#'
+#' @return Vector of url to download.
 #'
 #' @importFrom RCurl getURL
 #' @importFrom XML readHTMLTable
@@ -21,9 +27,11 @@
 #'
 #' @author Melina Houle
 #' @examples
-#' dt <- data.table::data.table(dataset = c("NFDB"),
-#'                              url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
-#'                              password = c(NA))
+#' dt <- data.table::data.table(
+#'   dataset = c("NFDB"),
+#'   url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
+#'   password = c(NA)
+#' )
 #' path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
 #'
 listWebData <- function(urlTble, datasetName, dfile) {
@@ -101,10 +109,13 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #' @author Melina Houle
 #' @examples
 #' library(data.table)
-#' dt<- data.table(dataset = c("NFDB"),
-#'                url = "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/",
-#'                password= NA,
-#'                files = "NFDB_poly.zip")
+#' dt<- data.table(
+#'   dataset = c("NFDB"),
+#'   url = "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/",
+#'   password = NA,
+#'   files = "NFDB_poly.zip"
+#' )
+#'
 urls <- data.table(
   dataset = c("AHCCD_daily",
               "NFDB",

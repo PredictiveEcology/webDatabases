@@ -8,26 +8,30 @@
 listWebData(urlTble, datasetName, dfile)
 }
 \arguments{
-\item{urlTble}{A data.table that stores available dataset name, url, password and filenames found within each dataset.
-urltble is provided within the package as urls object.}
+\item{urlTble}{A \code{data.table} that stores available dataset name, url,
+password and filenames found within each dataset.
+\code{urltble} is provided within the package as urls object.}
 
-\item{datasetName}{A character string. Represent the dataset of interest for download. datasetName allow to derived
-url and password from the urltble.}
+\item{datasetName}{Character string. Represent the dataset of interest for download.
+\code{datasetName} allow to derived url and password from the \code{urltble}.}
 
-\item{dfile}{A character string representing filename of interest to download. When missing, all files from associated
-url given will be listed.}
+\item{dfile}{Character string representing filename of interest to download.
+When missing, all files from associated url given will be listed.}
 }
 \value{
-Vector of url to download
+Vector of url to download.
 }
 \description{
-Browse http and ftp site of interest using dataset name and store available dataset in a list. To list the data using
-dataset name, a data.table containing datasetName, URL of interest and password need to be previously created.
+Browse http and ftp site of interest using dataset name and store available dataset in a list.
+To list the data using dataset name, a \code{data.table} containing \code{datasetName},
+url of interest and password need to be previously created.
 }
 \examples{
-dt <- data.table::data.table(dataset = c("NFDB"),
-                             url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
-                             password = c(NA))
+dt <- data.table::data.table(
+  dataset = c("NFDB"),
+  url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
+  password = c(NA)
+)
 path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
 
 }
