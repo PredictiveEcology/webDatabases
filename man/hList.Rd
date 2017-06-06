@@ -12,21 +12,22 @@ hList(fList, destfile, quick = TRUE, csalgorithm = "xxhash64")
 
 \item{destfile}{A character string giving file to path to file.}
 
-\item{quick}{A logical argument. If TRUE, checksum is compiled using the combination
-of the filename and its size. If FALSE, cheksum is compiled using the object.
-Default is FALSE.}
+\item{quick}{Logical. If \code{TRUE}, checksum is computed using the combination
+of the filename and its size.
+If \code{FALSE} (default), checksum is compiled using the object.}
 
-\item{csalgorithm}{A character string representing the algorithms used by the digest
-function. Default is "xxhash64".}
+\item{csalgorithm}{A character string representing the algorithms used by the
+digest function. Default is \code{"xxhash64"}
+.}
 }
 \value{
-The hList function returns a dataframe where filename, checksum value from the
-        object (checksumFile), checksum value from the combination of filename and file
+\code{data.frame} where filename, checksum value from the object
+        (checksumFile), checksum value from the combination of filename and file
         size and the algorithm used to compute checksum values are stored.
 }
 \description{
-The function stores in a dataframe the filename and its checksum value. Checksum is compiled
-using the digest function (see Details of \code{\link[digest]{digest}}).
+The function stores in a \code{data.frame} the filename and its checksum value.
+Checksum is computed using the digest function (see Details of \code{\link[digest]{digest}}).
 }
 \examples{
 outdir<- tempdir()

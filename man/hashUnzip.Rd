@@ -3,7 +3,7 @@
 \docType{methods}
 \name{hashUnzip}
 \alias{hashUnzip}
-\title{Extract files from a zip archive downloaded and log checksum value to avoid repeating action.}
+\title{Extract files from a zip archive downloaded and log checksum value}
 \usage{
 hashUnzip(zipfile, destfile, checkhash = TRUE, quick = TRUE, dbHash)
 }
@@ -12,37 +12,47 @@ hashUnzip(zipfile, destfile, checkhash = TRUE, quick = TRUE, dbHash)
 
 \item{destfile}{A character string. Represents the path where unzip file is saved.}
 
-\item{checkhash}{A logical argument. If TRUE, check if unzip file is found locally and cross-check its checksum value
-with value logged in dbHash from previous unzip event. When checksums match, a message raises indicating the file
-is already properly unzip. When checksums doesn't match or unzip file doesn't exist locally, unzip occurs and
-checksum compiles. If FALSE, unzip occurs even if the files exist locally. Default is FALSE.}
+\item{checkhash}{Logical. If \code{TRUE}, check if unzip file is found locally
+and cross-check its checksum value with value logged in dbHash
+from previous unzip event.
+When checksums match, a message raises indicating the file is
+already properly unzip.
+When checksums doesn't match or unzip file doesn't exist locally,
+unzip occurs and checksum computed.
+If \code{FALSE} (default), unzip occurs even if the files exist locally.}
 
-\item{quick}{A logical argument. If TRUE, checksum is compiled using the combination of the filename and its size.
-If FALSE, cheksum is compiled using the object. Default is FALSE.}
+\item{quick}{Logical. If \code{TRUE}, checksum is coputed using the combination
+of the filename and its size.
+If \code{FALSE} (default), checksum is computed using the object.}
 
-\item{dbHash}{A character string. The path to the database file where file checksum value is logged. If the named
-database does not yet exist, one is created. Default is "dbHash.sqlite".}
+\item{dbHash}{A character string. The path to the database file where file
+checksum value is logged.
+If the named database does not yet exist, one is created.
+Default is \code{"dbHash.sqlite"}.}
 }
 \value{
-Unzipped file is saved in a subfolder using the zipfile basename in the destfile folder.
+Invoked for its side-effect of saving unzipped file in a subdirectory
+        using the zipfile basename in the \file{destfile/} directory.
 }
 \description{
-This function unzip dataset previously downloaded from url. Prior to unzip, the function check if
+unzip dataset previously downloaded from url, first checking if
 unzip was previously performed (unzip file exists locally).
 }
 \examples{
-library(SpaDES)
-sim <- SpaDES::simInit(times = list(start=0.0, end=5.0),
-                       objects=list(),
+\dontrun{
+sim <- SpaDES::simInit(times = list(start = 0.0, end = 5.0),
+                       objects = list(),
                        params = list(),
                        modules = list(),
-                       paths = list(outputPath=tempdir()))
+                       paths = list(outputPath = tempdir()))
 url<-"ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/Homog_daily_mean_temp_v2016.zip"
-algo = "xxhash64"
+algo <- "xxhash64"
 destfile <- tempdir()
 hashDownload(url, destfile, sim, module, cascade = FALSE)
 zip <- file.path(destfile, basename(url))
 hashUnzip(zip, destfile, checkhash = FALSE,  quick = FALSE, dbHash = "dbHash.sqlite")
+}
+
 }
 \author{
 Melina Houle

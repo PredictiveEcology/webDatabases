@@ -1,3 +1,4 @@
+################################################################################
 #' Log checksum from downloaded files into a SQLite database
 #'
 #' Log compiled checksum values from a specific file into a predetermine dbHash

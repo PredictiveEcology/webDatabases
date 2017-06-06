@@ -3,46 +3,52 @@
 \docType{methods}
 \name{hashUntar}
 \alias{hashUntar}
-\title{Extract files from a tar archive downloaded and log checksum value to avoid repeating action.}
+\title{Extract files from a tar archive downloaded and log checksum value}
 \usage{
 hashUntar(tarfile, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite",
   quick = FALSE)
 }
 \arguments{
-\item{tarfile}{A character vector.  Contains tarfile path.}
+\item{tarfile}{A character vector. Contains tarfile path.}
 
 \item{destfile}{A character string. Represents the path where untar file is saved.}
 
-\item{checkhash}{A logical argument. If TRUE, check if untarred/unzipped file exists locally
-and cross-check checksum value with logged checksum from previous untar event.
-When checksums don't match or file doesn't exist locally, untar occurs and
-checksum compiles. If FALSE, file is untarred Default is FALSE.}
+\item{checkhash}{Logical. If \code{TRUE}, check if untarred/unzipped file exists
+locally and cross-checks the checksum value with logged checksum
+from previous untar event.
+When checksums don't match or file doesn't exist locally,
+untar occurs and checksum is computed.
+If \code{FALSE} (default), file is untarred.}
 
-\item{dbHash}{A character string. The path to the database file where checksum value of file is logged.
-If the database does not yet exist, one is created. Default is "dbHash.sqlite".}
+\item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
+If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 
-\item{quick}{A logical argument. If TRUE, checksum is compiled using the combination of the filename and
-its size. If FALSE, cheksum is compiled using the object. Default is FALSE.}
+\item{quick}{Logical. If \code{TRUE}, checksum is computed using the combination
+of the filename and file size. If \code{FALSE} (default), cheksum
+is computed using the object.}
 }
 \value{
-Untarred/unzipped file is saved in a subfolder using the tarfile basename in the destfile folder.
+Used for its side-effect: the untarred/unzipped file is saved in a
+        subdirectory using the tarfile basename in the \file{destfile/} directory.
 }
 \description{
-This function untar and unzip files. Prior to untar, the function check if untar
-was previously performed (untarred/unzipped file exist locally).
+untar and unzip files, first checking if untar was previously performed
+(untarred/unzipped file exist locally).
 }
 \examples{
-library(SpaDES)
-sim <- SpaDES::simInit(times = list(start=0.0, end=5.0),
-                       objects=list(),
+\dontrun{
+sim <- SpaDES::simInit(times = list(start = 0.0, end = 5.0),
+                       objects = list(),
                        params = list(),
                        modules = list(),
-                       paths = list(outputPath=tempdir()))
+                       paths = list(outputPath = tempdir()))
 url <- "ftp://knn4ftp:knn4ftp@tree.nfis.org/kNN-LandCover.tar"
 destfile <- tempdir()
 hashDownload(url, destfile, sim, module, destfile, checkhash = FALSE, cascade = FALSE)
 tar<- file.path(destfile, basename(url))
 hashUntar(tar, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE)
+}
+
 }
 \author{
 Melina Houle

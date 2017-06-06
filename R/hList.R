@@ -1,24 +1,30 @@
 ################################################################################
 #' Extract checksum value from file
 #'
-#' The function stores in a dataframe the filename and its checksum value. Checksum is compiled
-#' using the digest function (see Details of \code{\link[digest]{digest}}).
-#' @rdname hList
+#' The function stores in a \code{data.frame} the filename and its checksum value.
+#' Checksum is computed using the digest function (see Details of \code{\link[digest]{digest}}).
+#'
 #' @param fList A character vector representing filename
+#'
 #' @param destfile A character string giving file to path to file.
-#' @param quick A logical argument. If TRUE, checksum is compiled using the combination
-#'              of the filename and its size. If FALSE, cheksum is compiled using the object.
-#'              Default is FALSE.
-#' @param csalgorithm A character string representing the algorithms used by the digest
-#'              function. Default is "xxhash64".
-#' @return The hList function returns a dataframe where filename, checksum value from the
-#'         object (checksumFile), checksum value from the combination of filename and file
+#'
+#' @param quick Logical. If \code{TRUE}, checksum is computed using the combination
+#'              of the filename and its size.
+#'              If \code{FALSE} (default), checksum is compiled using the object.
+#'
+#' @param csalgorithm A character string representing the algorithms used by the
+#'                    digest function. Default is \code{"xxhash64"}
+#'                    .
+#' @return \code{data.frame} where filename, checksum value from the object
+#'         (checksumFile), checksum value from the combination of filename and file
 #'         size and the algorithm used to compute checksum values are stored.
-#' @importFrom digest digest
-#' @export
-#' @docType methods
 #'
 #' @author Melina Houle
+#' @docType methods
+#' @export
+#' @importFrom digest digest
+#' @rdname hList
+#'
 #' @examples
 #' outdir<- tempdir()
 #' file.list<- list.files(outdir)

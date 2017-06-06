@@ -21,15 +21,18 @@ url of the file(s).}
 \item{module}{A character string. Represents the names of the module to be loaded for the simulation.}
 
 \item{checkhash}{Logical. If \code{TRUE}, check if file exists locally and cross-check
-checksum value with value logged from previous download. When checksums match, no download occurs.
-When checksums don't match or file doesn't exist locally (i.e., first download), download occurs and
-checksum compiles. If \code{FALSE} (default), file is downloaded even if it is found locally.}
+checksum value with value logged from previous download.
+When checksums match, no download occurs.
+When checksums don't match or file doesn't exist locally
+(i.e., first download), download occurs and checksum is computed.
+If \code{FALSE} (default), file is downloaded even if it is found locally.}
 
-\item{quick}{Logical. If \code{TRUE}, checksum is compiled using the combination of the filename and its size.
+\item{quick}{Logical. If \code{TRUE}, checksum is compiled using the combination
+of the filename and its size.
 If \code{FALSE} (default), cheksum is compiled using the object.}
 
-\item{dbHash}{A character string. The path to the database file where checksum value of file is logged. If the
-database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
+\item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
+If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 
 \item{cascade}{Logical. If \code{TRUE}, file is untar and/or unzip. Default is \code{FALSE}.}
 

@@ -1,11 +1,10 @@
-##################################################################################
+################################################################################
 #' Creates a vector of url to download based on datasetName and filename.
 #'
 #' Browse http and ftp site of interest using dataset name and store available dataset in a list.
 #' To list the data using dataset name, a \code{data.table} containing \code{datasetName},
 #' url of interest and password need to be previously created.
 #'
-#' @rdname listWebData
 #' @param urlTble A \code{data.table} that stores available dataset name, url,
 #'                password and filenames found within each dataset.
 #'                \code{urltble} is provided within the package as urls object.
@@ -18,14 +17,15 @@
 #'
 #' @return Vector of url to download.
 #'
+#' @author Melina Houle
+#' @docType methods
+#' @export
 #' @importFrom RCurl getURL
 #' @importFrom XML readHTMLTable
 #' @importFrom data.table setkey
 #' @importFrom plyr .
-#' @export
-#' @docType methods
+#' @rdname listWebData
 #'
-#' @author Melina Houle
 #' @examples
 #' dt <- data.table::data.table(
 #'   dataset = c("NFDB"),
@@ -36,7 +36,7 @@
 #'
 listWebData <- function(urlTble, datasetName, dfile) {
   if (missing(urlTble)) {
-    stop("You must provide a datatable that contain the link between url, datasetName and password.")
+    stop("You must provide a data.table that contain the link between url, datasetName and password.")
   }
   if (missing(datasetName)) {
     stop("You must provide dataset name to access url of interest.")
@@ -92,7 +92,7 @@ listWebData <- function(urlTble, datasetName, dfile) {
   return(file.list)
 }
 
-##################################################################################
+################################################################################
 #' Table of dataset accessible using url
 #'
 #' An R object that stores dataset with their respective url and username/password. This table makes the link between
