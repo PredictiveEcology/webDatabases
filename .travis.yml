@@ -16,7 +16,6 @@ matrix:
     r: oldrel
     cran: https://cran.rstudio.com/
     before_install:
-    - tlmgr install xkeyval
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start
     - echo "options(repos = c(CRAN='https://cran.rstudio.com'))" >> ~/.Rprofile
@@ -26,7 +25,6 @@ matrix:
     r: release
     cran: https://cran.rstudio.com/
     before_install:
-    - tlmgr install xkeyval
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start
     - echo "options(repos = c(CRAN='https://cran.rstudio.com'))" >> ~/.Rprofile
@@ -38,7 +36,6 @@ matrix:
     r: devel
     cran: https://cran.rstudio.com/
     before_install:
-    - tlmgr install xkeyval
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start
     - echo "options(repos = c(CRAN='https://cran.rstudio.com'))" >> ~/.Rprofile
