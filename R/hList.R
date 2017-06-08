@@ -8,9 +8,7 @@
 #'
 #' @param destfile A character string giving file to path to file.
 #'
-#' @param quick Logical. If \code{TRUE}, checksum is computed using the combination
-#'              of the filename and its size.
-#'              If \code{FALSE} (default), checksum is compiled using the object.
+#' @inheritParams hashDownload
 #'
 #' @param csalgorithm A character string representing the algorithms used by the
 #'                    digest function. Default is \code{"xxhash64"}

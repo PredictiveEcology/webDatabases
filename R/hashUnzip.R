@@ -6,25 +6,7 @@
 #'
 #' @param zipfile A character vector. Contains path to zipfile.
 #'
-#' @param destfile A character string. Represents the name where unzip file is saved.
-#'
-#' @param checkhash Logical. If \code{TRUE}, check if unzip file is found locally
-#'                  and cross-check its checksum value with value logged in dbHash
-#'                  from previous unzip event.
-#'                  When checksums match, a message raises indicating the file is
-#'                  already properly unzip.
-#'                  When checksums doesn't match or unzip file doesn't exist locally,
-#'                  unzip occurs and checksum computed.
-#'                  If \code{FALSE} (default), unzip occurs even if the files exist locally.
-#'
-#' @param quick Logical. If \code{TRUE}, checksum is coputed using the combination
-#'              of the filename and its size.
-#'              If \code{FALSE} (default), checksum is computed using the object.
-#
-#' @param dbHash A character string. The path to the database file where file
-#'               checksum value is logged.
-#'               If the named database does not yet exist, one is created.
-#'               Default is \code{"dbHash.sqlite"}.
+#' @inheritParams hashDownload
 #'
 #' @return Invoked for its side-effect of saving unzipped file in a subdirectory
 #'         using the zipfile basename in the \file{destfile/} directory.

@@ -11,20 +11,22 @@ hashUntar(tarfile, destfile, checkhash = TRUE, quick = FALSE,
 \arguments{
 \item{tarfile}{A character string. Represents path to tarfile.}
 
-\item{destfile}{A character string. Contains the name where untar file is saved.}
+\item{destfile}{A character string. Represents the name where resulting file is saved.}
 
-\item{checkhash}{Logical. If \code{TRUE} (default), check if untarred file exists locally and compare
-checksum value with checksum logged from previous event. When checksums don't
-match or ubtar file doesn't exist , \code{untar} and \code{digest} are performed.
-If \code{FALSE}, only \code{untar} is performed.}
+\item{checkhash}{Logical. If \code{TRUE} (default), check if file exists locally and cross-check
+checksum value with value logged from previous event.
+When checksums match, the function is not executed.
+When checksums don't match or file doesn't exist locally,
+the function is initiated and checksum is computed.
+If \code{FALSE}, the function is executed even if the file
+is found locally.}
 
-\item{quick}{Logical. If \code{TRUE}, \code{digest} is performed using the combination of
-untarred filename and its size. If \code{FALSE} (default), \code{digest} is performed
-using the object.}
+\item{quick}{Logical. If \code{TRUE}, checksum is compiled using the combination
+of the filename and its size.
+If \code{FALSE} (default), cheksum is compiled using the object.}
 
-\item{dbHash}{A character string. Represents path to SQLite database file where checksum value
-from \code{digest} is logged. If the database doesn't exist, one is created. Default is
-\code{"dbHash.sqlite"}.}
+\item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
+If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 }
 \value{
 Untarred/unzipped \code{tarfile} in a subfolder under \code{destfile} using

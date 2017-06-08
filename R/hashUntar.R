@@ -7,20 +7,7 @@
 #'
 #' @param tarfile A character string. Represents path to tarfile.
 #'
-#' @param destfile A character string. Contains the name where untar file is saved.
-#'
-#' @param checkhash Logical. If \code{TRUE} (default), check if untarred file exists locally and compare
-#'        checksum value with checksum logged from previous event. When checksums don't
-#'        match or ubtar file doesn't exist , \code{untar} and \code{digest} are performed.
-#'        If \code{FALSE}, only \code{untar} is performed.
-#'
-#' @param quick Logical. If \code{TRUE}, \code{digest} is performed using the combination of
-#'        untarred filename and its size. If \code{FALSE} (default), \code{digest} is performed
-#'        using the object.
-#'
-#' @param dbHash A character string. Represents path to SQLite database file where checksum value
-#'        from \code{digest} is logged. If the database doesn't exist, one is created. Default is
-#'        \code{"dbHash.sqlite"}.
+#' @inheritParams hashDownload
 #'
 #' @return Untarred/unzipped \code{tarfile} in a subfolder under \code{destfile} using
 #'         \code{basename{tarfile}} name.
@@ -33,6 +20,7 @@
 #' @author Melina Houle
 #' @export
 #' @rdname hashUntar
+#'
 #' @examples
 #' urlpath <- "ftp://sidads.colorado.edu/pub/DATASETS/NOAA/G02171/Hudson_Bay/2006"
 #' urlfile <-  "cis_SGRDRHB_20060904_pl_a.tar"

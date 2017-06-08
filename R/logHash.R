@@ -1,3 +1,4 @@
+################################################################################
 #' logHash write its required argument \code{hashdata} to a SQLite database.
 #'
 #' If the SQLite database already exists, \code{hashdata} argument is append if not already present.
@@ -5,10 +6,8 @@
 #' @param hashdata A \code{data.frame} containing \code{filename}, \code{checksumFile},
 #'                 \code{checksumSize} and \code{algorithm} for each file are stored.
 #'
-#' @param dbHash A character string indicating the name of the database where checksum values are stored.
-#'               If the database does not exist, the function will create it and checksum will be computed.
-#'               Default is \code{"dbHash.sqlite"}
-#'               .
+#' @inheritParams hashDownload
+#'
 #' @return Invoked for its side-effect of logging filenames and checksum values into the SQL database.
 #'
 #' @importFrom DBI dbConnect dbExistsTable dbWriteTable dbSendQuery dbFetch dbClearResult dbDisconnect

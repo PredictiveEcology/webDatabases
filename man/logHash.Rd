@@ -11,10 +11,8 @@ logHash(hashdata, dbHash = "dbHash.sqlite")
 \item{hashdata}{A \code{data.frame} containing \code{filename}, \code{checksumFile},
 \code{checksumSize} and \code{algorithm} for each file are stored.}
 
-\item{dbHash}{A character string indicating the name of the database where checksum values are stored.
-If the database does not exist, the function will create it and checksum will be computed.
-Default is \code{"dbHash.sqlite"}
-.}
+\item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
+If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 }
 \value{
 Invoked for its side-effect of logging filenames and checksum values into the SQL database.

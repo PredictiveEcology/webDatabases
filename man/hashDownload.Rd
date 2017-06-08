@@ -11,14 +11,15 @@ hashDownload(urls, destfile, checkhash = TRUE, quick = FALSE,
 \arguments{
 \item{urls}{A character string. Represents the url of file to be downloaded.}
 
-\item{destfile}{A character string giving the path where the downloaded file is saved.}
+\item{destfile}{A character string. Represents the name where resulting file is saved.}
 
-\item{checkhash}{Logical. If \code{TRUE}, check if file exists locally and cross-check
-checksum value with value logged from previous download.
-When checksums match, no download occurs.
-When checksums don't match or file doesn't exist locally
-(i.e., first download), download occurs and checksum is computed.
-If \code{FALSE} (default), file is downloaded even if it is found locally.}
+\item{checkhash}{Logical. If \code{TRUE} (default), check if file exists locally and cross-check
+checksum value with value logged from previous event.
+When checksums match, the function is not executed.
+When checksums don't match or file doesn't exist locally,
+the function is initiated and checksum is computed.
+If \code{FALSE}, the function is executed even if the file
+is found locally.}
 
 \item{quick}{Logical. If \code{TRUE}, checksum is compiled using the combination
 of the filename and its size.
@@ -27,7 +28,7 @@ If \code{FALSE} (default), cheksum is compiled using the object.}
 \item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
 If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 
-\item{cascade}{Logical. If \code{TRUE}, file is untar and/or unzip. Default is \code{FALSE}.}
+\item{cascade}{Logical. If \code{FALSE}, file is untar and/or unzip. Default is \code{FALSE}.}
 
 \item{quiet}{Logical. If \code{TRUE}, suppress status messages (if any), and the progress bar.}
 }

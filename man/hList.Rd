@@ -12,9 +12,9 @@ hList(fList, destfile, quick = FALSE, csalgorithm = "xxhash64")
 
 \item{destfile}{A character string giving file to path to file.}
 
-\item{quick}{Logical. If \code{TRUE}, checksum is computed using the combination
+\item{quick}{Logical. If \code{TRUE}, checksum is compiled using the combination
 of the filename and its size.
-If \code{FALSE} (default), checksum is compiled using the object.}
+If \code{FALSE} (default), cheksum is compiled using the object.}
 
 \item{csalgorithm}{A character string representing the algorithms used by the
 digest function. Default is \code{"xxhash64"}
