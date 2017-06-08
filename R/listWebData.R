@@ -53,7 +53,6 @@ listWebData <- function(urlTble, datasetName, dfile) {
   address <- unlist(strsplit(url2data, "//"))[2]
 
   # Create list of file to download
-  # FTP connection
   if (typeConn == "ftp://") {
       # No password for the ftp site
       if (is.na(password)) {
@@ -68,13 +67,12 @@ listWebData <- function(urlTble, datasetName, dfile) {
       file.list <- file.list[!file.list %in% c(".","..")]
       file.list <- paste(typeConn, password, "@", address, file.list, sep = "")
     }
-  }
-
-  ## HTTP connection
-  if (typeConn == "http://" | typeConn == "https://") {
+  } else if (typeConn == "http://" || typeConn == "https://") {
       file.list <- readHTMLTable(url2data, skip.rows = 1:2)[[1]]$Name
       file.list <- paste(url2data, file.list[!is.na(file.list)], sep = "")
       file.list <- file.list[!file.list %in% c(".","..")]
+  } else {
+    stop("Unrecognized url type. Currently, only http://, https://, and ftp:// are supported.")
   }
 
   return(file.list)
