@@ -41,6 +41,7 @@ When file exists, the function compare checksum value from checksum logged from 
 \examples{
 url <- "http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
 hashDownload(urls = url, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
+
 }
 \author{
 Melina Houle

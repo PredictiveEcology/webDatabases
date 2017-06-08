@@ -39,6 +39,7 @@
 #' @examples
 #' url <- "http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
 #' hashDownload(urls = url, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
+#'
 hashDownload <- function(urls, destfile, checkhash = TRUE, quick = FALSE,
                          dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE) {
   cwd <- getwd()

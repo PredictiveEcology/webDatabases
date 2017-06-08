@@ -16,14 +16,12 @@ An R object that stores dataset name with their respective url and username/pass
 by the function listWebDatabases to retrive file available to download by using only the dataset name.
 }
 \examples{
-library(data.table)
-dt<- data.table(
+dt <- data.table::data.table(
   dataset = c("NFDB"),
-  url = "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/",
-  password = NA,
-  files = "NFDB_poly.zip"
+  url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
+  password = c(NA)
 )
-
+path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
 }
 \author{
 Melina Houle

@@ -3,7 +3,7 @@
 \docType{methods}
 \name{hashUnzip}
 \alias{hashUnzip}
-\title{Extract files from a zip archive and log checksum value to avoid repeating event}
+\title{Extract files from a zip archive downloaded and log checksum value}
 \usage{
 hashUnzip(zipfile, destfile, checkhash = TRUE, quick = FALSE,
   dbHash = "dbHash.sqlite")
@@ -13,34 +13,37 @@ hashUnzip(zipfile, destfile, checkhash = TRUE, quick = FALSE,
 
 \item{destfile}{A character string. Represents the name where unzip file is saved.}
 
-\item{checkhash}{Logical. If \code{TRUE}, check if untzipped file exists locally and compare
-checksum value with checksum logged from previous event. When checksums don't
-match or unzip file doesn't exist, \code{unzip} and \code{digest} are performed.
-If \code{FALSE} (default), only \code{unzip} is performed.}
+\item{checkhash}{Logical. If \code{TRUE}, check if unzip file is found locally
+and cross-check its checksum value with value logged in dbHash
+from previous unzip event.
+When checksums match, a message raises indicating the file is
+already properly unzip.
+When checksums doesn't match or unzip file doesn't exist locally,
+unzip occurs and checksum computed.
+If \code{FALSE} (default), unzip occurs even if the files exist locally.}
 
-\item{quick}{Logical. If \code{TRUE}, \code{digest} is performed using the combination of
-unzipped filename and its size. If \code{FALSE} (default), \code{digest} is performed
-using the object.}
+\item{quick}{Logical. If \code{TRUE}, checksum is coputed using the combination
+of the filename and its size.
+If \code{FALSE} (default), checksum is computed using the object.}
 
-\item{dbHash}{A character string. Represents path to SQLite database file where checksum value
-from \code{digest} is logged. If the database doesn't exist, one is created. Default is
-\code{"dbHash.sqlite"}.}
+\item{dbHash}{A character string. The path to the database file where file
+checksum value is logged.
+If the named database does not yet exist, one is created.
+Default is \code{"dbHash.sqlite"}.}
 }
 \value{
-Unzipped \code{zipfile} in a subfolder under \code{destfile} using
-         \code{basename{tarfile}}name.
+Invoked for its side-effect of saving unzipped file in a subdirectory
+        using the zipfile basename in the \file{destfile/} directory.
 }
 \description{
-Prior to unzip, the function check if untar was previously performed (unzipped file exist
-locally) and compare checksum value from previous event when present. Unzip is performed
-when file doesn't exists or checksums don't match.
+unzip dataset previously downloaded from url, first checking if
+unzip was previously performed (unzip file exists locally).
 }
 \examples{
 url<-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
 hashDownload(url, destfile = tempdir(), checkhash= FALSE, cascade = FALSE)
 zip <- file.path(tempdir(), basename(url))
 hashUnzip(zip, tempdir(), checkhash= FALSE)
-}
 
 }
 \author{

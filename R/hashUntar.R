@@ -40,6 +40,7 @@
 #' hashDownload(url, destfile = tempdir(), cascade = FALSE)
 #' tar<- file.path(tempdir(), basename(url))
 #' hashUntar(tar, tempdir(), checkhash= FALSE)
+#'
 hashUntar <-function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite"){
   fx<- file_path_sans_ext(basename(tarfile))
   if(checkhash){

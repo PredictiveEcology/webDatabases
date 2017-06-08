@@ -1,10 +1,11 @@
-##################################################################################
+################################################################################
 #' Retrive file available to download.
 #'
-#' The function produce a character vector of file available to download. It uses a preset table
-#' in which a list of relevant dataset name, their associate url and password are stored. To
-#' retrive available file, the function derive URL, and username/password using the \code{datasetName}
-#'
+#' The function produce a character vector of file available to download. It uses a preset
+#' \code{data.table} in which a list of relevant dataset name, their associate url and password
+#' are stored. To retrive available file, the function derive URL, and username/password using
+#' the \code{datasetName}.
+
 #' @param urlTble A \code{data.table} that stores available dataset name, url,
 #'                password and filenames found within each dataset.
 #'                \code{urltble} is provided within the package as urls object.
@@ -94,14 +95,13 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #'
 #' @author Melina Houle
 #' @examples
-#' library(data.table)
-#' dt<- data.table(
+#' dt <- data.table::data.table(
 #'   dataset = c("NFDB"),
-#'   url = "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/",
-#'   password = NA,
-#'   files = "NFDB_poly.zip"
+#'   url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
+#'   password = c(NA)
 #' )
-#'
+#' path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
+#
 urls <- data.table(
   dataset = c("AHCCD_daily",
               "NFDB",

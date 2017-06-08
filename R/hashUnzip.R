@@ -1,30 +1,34 @@
 ################################################################################
-#' Extract files from a zip archive and log checksum value to avoid repeating event
+#' Extract files from a zip archive downloaded and log checksum value
 #'
-#' Prior to unzip, the function check if untar was previously performed (unzipped file exist
-#' locally) and compare checksum value from previous event when present. Unzip is performed
-#' when file doesn't exists or checksums don't match.
+#' unzip dataset previously downloaded from url, first checking if
+#' unzip was previously performed (unzip file exists locally).
 #'
 #' @param zipfile A character vector. Contains path to zipfile.
 #'
 #' @param destfile A character string. Represents the name where unzip file is saved.
 #'
-#' @param checkhash Logical. If \code{TRUE}, check if untzipped file exists locally and compare
-#'        checksum value with checksum logged from previous event. When checksums don't
-#'        match or unzip file doesn't exist, \code{unzip} and \code{digest} are performed.
-#'        If \code{FALSE} (default), only \code{unzip} is performed.
+#' @param checkhash Logical. If \code{TRUE}, check if unzip file is found locally
+#'                  and cross-check its checksum value with value logged in dbHash
+#'                  from previous unzip event.
+#'                  When checksums match, a message raises indicating the file is
+#'                  already properly unzip.
+#'                  When checksums doesn't match or unzip file doesn't exist locally,
+#'                  unzip occurs and checksum computed.
+#'                  If \code{FALSE} (default), unzip occurs even if the files exist locally.
 #'
-#' @param quick Logical. If \code{TRUE}, \code{digest} is performed using the combination of
-#'        unzipped filename and its size. If \code{FALSE} (default), \code{digest} is performed
-#'        using the object.
+#' @param quick Logical. If \code{TRUE}, checksum is coputed using the combination
+#'              of the filename and its size.
+#'              If \code{FALSE} (default), checksum is computed using the object.
+#
+#' @param dbHash A character string. The path to the database file where file
+#'               checksum value is logged.
+#'               If the named database does not yet exist, one is created.
+#'               Default is \code{"dbHash.sqlite"}.
 #'
-#' @param dbHash A character string. Represents path to SQLite database file where checksum value
-#'        from \code{digest} is logged. If the database doesn't exist, one is created. Default is
-#'        \code{"dbHash.sqlite"}.
+#' @return Invoked for its side-effect of saving unzipped file in a subdirectory
+#'         using the zipfile basename in the \file{destfile/} directory.
 #'
-#' @return Unzipped \code{zipfile} in a subfolder under \code{destfile} using
-#'          \code{basename{tarfile}}name.
-
 #' @importFrom utils unzip
 #' @importFrom tools file_path_sans_ext
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
@@ -38,15 +42,16 @@
 #' hashDownload(url, destfile = tempdir(), checkhash= FALSE, cascade = FALSE)
 #' zip <- file.path(tempdir(), basename(url))
 #' hashUnzip(zip, tempdir(), checkhash= FALSE)
+#'
 hashUnzip <-function(zipfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite"){
   fn<- file_path_sans_ext(basename(zipfile))
   if(checkhash){
 
-    con = dbConnect(SQLite(), dbHash)
-    if (!dbExistsTable(con, "checksum")){
-      dbWriteTable(con, "checksum", data.frame(Filename= character(),
-                                               checksumFile= character(),
-                                               checksumSize= character(),
+    con <- dbConnect(SQLite(), dbHash)
+    if (!dbExistsTable(con, "checksum")) {
+      dbWriteTable(con, "checksum", data.frame(Filename = character(),
+                                               checksumFile = character(),
+                                               checksumSize = character(),
                                                algorithm = character(),
                                                stringsAsFactors = FALSE),
                    overwrite = TRUE, field.types = NULL)

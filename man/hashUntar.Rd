@@ -42,7 +42,6 @@ url <- file.path(urlpath, urlfile)
 hashDownload(url, destfile = tempdir(), cascade = FALSE)
 tar<- file.path(tempdir(), basename(url))
 hashUntar(tar, tempdir(), checkhash= FALSE)
-}
 
 }
 \author{

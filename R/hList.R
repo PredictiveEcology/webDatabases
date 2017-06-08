@@ -28,10 +28,11 @@
 #' @export
 #' @rdname hList
 #' @examples
-#' outdir<- tempdir()
-#' file.list<- list.files(outdir)
-#' hfile <-hList(file.list, destfile = outdir, quick = TRUE)
-hList <-function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64"){
+#' outdir <- tempdir()
+#' file.list <- list.files(outdir)
+#' hfile <- hList(file.list, destfile = outdir, quick = TRUE)
+#'
+hList <- function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64") {
   path2file <- lapply(file.path(destfile, fList), function(x) {x[!file.info(x)$isdir]})
   fList <- unlist(lapply(path2file, function(x) {x[file.exists(x), drop = FALSE]}))
 
@@ -50,7 +51,7 @@ hList <-function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64"){
       allFiles <- lapply(flst, function(x) {list(basename(x), file.info(x)[,"size"])})
 
       hfolder <- digest(allFiles, algo = csalgorithm)
-      checkfolder < -data.frame(Filename = basename(destfile), checksumFile = NA,
+      checkfolder <- data.frame(Filename = basename(destfile), checksumFile = NA,
                                 checksumSize = unlist(hfolder), algorithm = csalgorithm,
                                 stringsAsFactors = FALSE)
 
@@ -59,7 +60,7 @@ hList <-function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64"){
       hfile <- lapply(fls, function(i) digest(i, algo = csalgorithm))
 
       # Fill hdata data.frame
-      checkfiles < -data.frame(Filename = basename(fList), checksumFile = unlist(htag),
+      checkfiles <- data.frame(Filename = basename(fList), checksumFile = unlist(htag),
                                checksumSize = unlist(hfile), algorithm = csalgorithm,
                                stringsAsFactors = FALSE)
       hdata <- rbind(checkfiles, checkfolder)
