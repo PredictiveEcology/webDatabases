@@ -93,7 +93,7 @@ hashDownload <- function(urls, destfile, checkhash = TRUE, quick = FALSE,
         # List empty. All files downloaded
         needDownload <- FALSE
       }
-    } else{
+    } else {
       # No files previously download. Need download.
       file2dwd <- urls
       needDownload <- TRUE

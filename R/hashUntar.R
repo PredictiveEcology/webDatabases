@@ -29,9 +29,9 @@
 #' tar<- file.path(tempdir(), basename(url))
 #' hashUntar(tar, tempdir(), checkhash= FALSE)
 #'
-hashUntar <-function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite"){
-  fx<- file_path_sans_ext(basename(tarfile))
-  if(checkhash){
+hashUntar <- function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite"){
+  fx <- file_path_sans_ext(basename(tarfile))
+  if (checkhash) {
 
     # Crosscheck with previous download
     con <- dbConnect(SQLite(), dbHash)
