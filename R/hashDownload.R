@@ -62,12 +62,7 @@ hashDownload <- function(urls, destfile, checkhash = TRUE, quick = FALSE,
 
     # Create checksum table if it doesn't exist
     if (!dbExistsTable(con, "checksum")) {
-      dbWriteTable(con, "checksum", data.frame(Filename = character(),
-                                               checksumFile = character(),
-                                               checksumSize = character(),
-                                               algorithm = character(),
-                                               stringsAsFactors = FALSE),
-                                               overwrite = TRUE, field.types = NULL)
+      dbWriteTable(con, "checksum", .hdf(), overwrite = TRUE, field.types = NULL)
       if (!quiet) message("hashDwd.txt has been created.")
     }
 

@@ -23,10 +23,8 @@
 #' @docType methods
 #' @export
 #' @importFrom digest digest
-#' @docType methods
-#' @author Melina Houle
-#' @export
 #' @rdname hList
+#'
 #' @examples
 #' outdir <- tempdir()
 #' file.list <- list.files(outdir)
@@ -37,8 +35,7 @@ hList <- function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64") {
   fList <- unlist(lapply(path2file, function(x) {x[file.exists(x), drop = FALSE]}))
 
   if (length(fList) == 0) {
-    hdata <- data.frame(Filename = character(),  checksumFile = character(),
-                        checksumSize = character(), algorithm = character(), stringsAsFactors = FALSE)
+    hdata <- .hdf()
   } else {
     # Extract filenames and hash value from files downloaded locally.
     if (!quick) {
@@ -68,7 +65,7 @@ hList <- function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64") {
       # checksum on folder using folder name and size
       flst <- list.files(destfile)
       flst <- file.path(destfile, flst)
-      allFiles <- lapply(flst, function(x) {list(basename(x), file.info(x)[,"size"])})
+      allFiles <- lapply(flst, function(x) {list(basename(x), file.info(x)[, "size"])})
 
       hfolder <- digest(allFiles, algo = csalgorithm)
       checkfolder <- data.frame(Filename = basename(destfile), checksumFile = NA,

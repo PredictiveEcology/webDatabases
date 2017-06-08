@@ -80,20 +80,21 @@ listWebData <- function(urlTble, datasetName, dfile) {
   return(file.list)
 }
 
-##################################################################################
+################################################################################
 #' Table of relevant dataset accessible using url
 #'
-#' An R object that stores dataset name with their respective url and username/password. The table is used
-#' by the function listWebDatabases to retrive file available to download by using only the dataset name.
+#' Stores dataset name with their respective url and username/password.
+#' The table is used by \code{listWebDatabases} to retrive file available to
+#' download by using only the dataset name.
 #'
-#' @rdname webdataset
-#' @return data.table object containing dataset available for download.
-#'
-#' @importFrom data.table data.table
-#' @export
-#' @docType methods
+#' @return \code{data.table} containing dataset available for download.
 #'
 #' @author Melina Houle
+#' @docType methods
+#' @importFrom data.table data.table
+#' @export
+#' @rdname webdataset
+#'
 #' @examples
 #' dt <- data.table::data.table(
 #'   dataset = c("NFDB"),
@@ -149,4 +150,3 @@ urls <- data.table(
     c("Land_Cover_2010_TIFF.zip"),
     c(""))
 )
-

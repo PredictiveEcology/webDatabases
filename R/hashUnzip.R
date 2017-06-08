@@ -29,32 +29,28 @@
 #' @return Invoked for its side-effect of saving unzipped file in a subdirectory
 #'         using the zipfile basename in the \file{destfile/} directory.
 #'
-#' @importFrom utils unzip
-#' @importFrom tools file_path_sans_ext
+#' @author Melina Houle
+#' @docType methods
+#' @export
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
 #' @importFrom RSQLite SQLite
-#' @docType methods
-#' @author Melina Houle
-#' @export
+#' @importFrom tools file_path_sans_ext
+#' @importFrom utils unzip
 #' @rdname hashUnzip
+#'
 #' @examples
-#' url<-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
+#' url <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
 #' hashDownload(url, destfile = tempdir(), checkhash= FALSE, cascade = FALSE)
 #' zip <- file.path(tempdir(), basename(url))
-#' hashUnzip(zip, tempdir(), checkhash= FALSE)
+#' hashUnzip(zip, tempdir(), checkhash = FALSE)
 #'
-hashUnzip <-function(zipfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite"){
-  fn<- file_path_sans_ext(basename(zipfile))
-  if(checkhash){
-
+hashUnzip <- function(zipfile, destfile, checkhash = TRUE, quick = FALSE,
+                      dbHash = "dbHash.sqlite") {
+  fn <- file_path_sans_ext(basename(zipfile))
+  if (checkhash) {
     con <- dbConnect(SQLite(), dbHash)
     if (!dbExistsTable(con, "checksum")) {
-      dbWriteTable(con, "checksum", data.frame(Filename = character(),
-                                               checksumFile = character(),
-                                               checksumSize = character(),
-                                               algorithm = character(),
-                                               stringsAsFactors = FALSE),
-                   overwrite = TRUE, field.types = NULL)
+      dbWriteTable(con, "checksum", .hdf(), overwrite = TRUE, field.types = NULL)
     }
     hfile <- dbReadTable(con, "checksum")
 

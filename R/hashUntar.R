@@ -48,12 +48,7 @@ hashUntar <-function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash 
     # Crosscheck with previous download
     con <- dbConnect(SQLite(), dbHash)
     if (!dbExistsTable(con, "checksum")) {
-      dbWriteTable(con, "checksum", data.frame(Filename = character(),
-                                               checksumFile = character(),
-                                               checksumSize = character(),
-                                               algorithm = character(),
-                                               stringsAsFactors = FALSE),
-                   overwrite = TRUE, field.types = NULL)
+      dbWriteTable(con, "checksum", .hdf(), overwrite = TRUE, field.types = NULL)
     }
 
     hfile <- dbReadTable(con, "checksum")

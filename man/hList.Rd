@@ -37,6 +37,4 @@ hfile <- hList(file.list, destfile = outdir, quick = TRUE)
 }
 \author{
 Melina Houle
-
-Melina Houle
 }

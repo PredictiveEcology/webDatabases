@@ -9,11 +9,12 @@
 urls
 }
 \value{
-data.table object containing dataset available for download.
+\code{data.table} containing dataset available for download.
 }
 \description{
-An R object that stores dataset name with their respective url and username/password. The table is used
-by the function listWebDatabases to retrive file available to download by using only the dataset name.
+Stores dataset name with their respective url and username/password.
+The table is used by \code{listWebDatabases} to retrive file available to
+download by using only the dataset name.
 }
 \examples{
 dt <- data.table::data.table(

@@ -28,11 +28,7 @@ logHash <- function(hashdata, dbHash = "dbHash.sqlite") {
 
   con <- dbConnect(SQLite(), dbHash)
   if (!dbExistsTable(con, "checksum")) {
-    dbWriteTable(con, "checksum",
-                 data.frame(Filename = character(), checksumFile = character(),
-                            checksumSize = character(), algorithm = character(),
-                            stringsAsFactors = FALSE),
-                 overwrite = TRUE, field.types = NULL)
+    dbWriteTable(con, "checksum", .hdf(), overwrite = TRUE, field.types = NULL)
   }
   w <- hashdata$Filename
   # Some file names use quote (') in there names.
