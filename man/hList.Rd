@@ -5,29 +5,28 @@
 \alias{hList}
 \title{Extract checksum value from file}
 \usage{
-hList(fList, destfile, quick = TRUE, csalgorithm = "xxhash64")
+hList(fList, destfile, quick = FALSE, csalgorithm = "xxhash64")
 }
 \arguments{
-\item{fList}{A character vector representing filename}
+\item{fList}{A character string. Represents name of file.}
 
-\item{destfile}{A character string giving file to path to file.}
+\item{destfile}{A character string. Represents the path name to file.}
 
-\item{quick}{Logical. If \code{TRUE}, checksum is computed using the combination
-of the filename and its size.
-If \code{FALSE} (default), checksum is compiled using the object.}
+\item{quick}{Logical. If \code{TRUE}, \code{digest} is performed using the combination of
+unzipped filename and its size. If \code{FALSE} (default), \code{digest} is performed
+using the object.}
 
-\item{csalgorithm}{A character string representing the algorithms used by the
-digest function. Default is \code{"xxhash64"}
-.}
+\item{csalgorithm}{A character string.  The algorithm to be used by \code{digest} (see Details of
+\code{\link[digest]{digest}}). Default is "xxhash64".}
 }
 \value{
-\code{data.frame} where filename, checksum value from the object
-        (checksumFile), checksum value from the combination of filename and file
-        size and the algorithm used to compute checksum values are stored.
+A \code{dataframe} containing \code{filename}, \code{checksumFile}, \code{checksumSize}
+       and \code{algorithm} for each file are stored
 }
 \description{
-The function stores in a \code{data.frame} the filename and its checksum value.
-Checksum is computed using the digest function (see Details of \code{\link[digest]{digest}}).
+The function stores in a dataframe the filename, checksum file value, checksum size value and
+the algorithm used to perform checksum. Checksum is compiled using the digest function (see
+Details of \code{\link[digest]{digest}}).
 }
 \examples{
 outdir<- tempdir()

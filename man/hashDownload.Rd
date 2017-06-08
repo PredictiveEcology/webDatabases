@@ -3,22 +3,15 @@
 \docType{methods}
 \name{hashDownload}
 \alias{hashDownload}
-\title{Download files from internet using url address and untar or unzip them.}
+\title{Download and store hash value from downloaded file.}
 \usage{
-hashDownload(urls, destfile, sim, module, checkhash = FALSE, quick = FALSE,
+hashDownload(urls, destfile, checkhash = TRUE, quick = FALSE,
   dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE)
 }
 \arguments{
 \item{urls}{A character string. Represents the url of file to be downloaded.}
 
-\item{destfile}{Character string giving the path where the downloaded file is saved.
-Default will use the \code{modulePath} from the \code{sim} object,
-if supplied with a module name, or a temporary location based on the
-url of the file(s).}
-
-\item{sim}{A \code{simList} simulation object, generally produced by \code{SpaDES::simInit}.}
-
-\item{module}{A character string. Represents the names of the module to be loaded for the simulation.}
+\item{destfile}{A character string giving the path where the downloaded file is saved.}
 
 \item{checkhash}{Logical. If \code{TRUE}, check if file exists locally and cross-check
 checksum value with value logged from previous download.
@@ -42,18 +35,12 @@ If the database does not yet exist, one is created. Default is \code{"dbHash.sql
 Invoked for its side-effect of downloading files to the \code{destfile/} directory.
 }
 \description{
-To avoid downloading existing files, the function verify if files exist locally,
-and compare checksum value from previous download.
+To avoid downloading existing files, the function verify if file exists locally prior to download.
+When file exists, the function compare checksum value from checksum logged from original download.
 }
 \examples{
-sim <- SpaDES::simInit(times = list(start = 0.0, end = 5.0),
-                       objects = list(),
-                       params = list(),
-                       modules = list(),
-                       paths = list(outputPath = tempdir()))
-url <- "ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/ZMekis_Vincent_2011.pdf"
-hashDownload(urls = url, destfile = tempdir(), sim, module, checkhash = FALSE, cascade = FALSE)
-
+url <- "http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
+hashDownload(urls = url, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
 }
 \author{
 Melina Houle

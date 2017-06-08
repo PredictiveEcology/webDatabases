@@ -3,7 +3,7 @@
 \docType{methods}
 \name{urls}
 \alias{urls}
-\title{Table of dataset accessible using url}
+\title{Table of relevant dataset accessible using url}
 \format{An object of class \code{data.table} (inherits from \code{data.frame}) with 8 rows and 4 columns.}
 \usage{
 urls
@@ -12,9 +12,8 @@ urls
 data.table object containing dataset available for download.
 }
 \description{
-An R object that stores dataset with their respective url and username/password. This table makes the link between
-dataset name, url and username/password. By only poviding the dataset name, listWebdata and dwdData functions extract url
-username/password to access, extract and download data.
+An R object that stores dataset name with their respective url and username/password. The table is used
+by the function listWebDatabases to retrive file available to download by using only the dataset name.
 }
 \examples{
 library(data.table)

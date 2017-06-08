@@ -1,58 +1,49 @@
 ################################################################################
-#' Extract files from a tar archive downloaded and log checksum value
+#' Extract files from a tar archive and log checksum value to avoid repeating event
 #'
-#' untar and unzip files, first checking if untar was previously performed
-#' (untarred/unzipped file exist locally).
+#' Prior to untar, the function check if untar was previously performed (untarred file exist
+#' locally) and compare checksum value from previous event when present. Untar is performed
+#' when file doesn't exists or checksums don't match.
 #'
-#' @param tarfile A character vector. Contains tarfile path.
+#' @param tarfile A character string. Represents path to tarfile.
 #'
-#' @param destfile A character string. Represents the path where untar file is saved.
+#' @param destfile A character string. Contains the name where untar file is saved.
 #'
-#' @param checkhash Logical. If \code{TRUE}, check if untarred/unzipped file exists
-#'                  locally and cross-checks the checksum value with logged checksum
-#'                  from previous untar event.
-#'                  When checksums don't match or file doesn't exist locally,
-#'                  untar occurs and checksum is computed.
-#'                  If \code{FALSE} (default), file is untarred.
+#' @param checkhash Logical. If \code{TRUE} (default), check if untarred file exists locally and compare
+#'        checksum value with checksum logged from previous event. When checksums don't
+#'        match or ubtar file doesn't exist , \code{untar} and \code{digest} are performed.
+#'        If \code{FALSE}, only \code{untar} is performed.
 #'
-#' @param dbHash Character string. The path to the database file where checksum value of file is logged.
-#'               If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.
+#' @param quick Logical. If \code{TRUE}, \code{digest} is performed using the combination of
+#'        untarred filename and its size. If \code{FALSE} (default), \code{digest} is performed
+#'        using the object.
 #'
-#' @param quick Logical. If \code{TRUE}, checksum is computed using the combination
-#'              of the filename and file size. If \code{FALSE} (default), cheksum
-#'              is computed using the object.
+#' @param dbHash A character string. Represents path to SQLite database file where checksum value
+#'        from \code{digest} is logged. If the database doesn't exist, one is created. Default is
+#'        \code{"dbHash.sqlite"}.
 #'
-#' @return Used for its side-effect: the untarred/unzipped file is saved in a
-#'         subdirectory using the tarfile basename in the \file{destfile/} directory.
+#' @return Untarred/unzipped \code{tarfile} in a subfolder under \code{destfile} using
+#'         \code{basename{tarfile}} name.
 #'
-#' @author Melina Houle
-#' @docType methods
-#' @export
 #' @importFrom utils untar
 #' @importFrom tools file_path_sans_ext
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
 #' @importFrom RSQLite SQLite
-#'
+#' @docType methods
+#' @author Melina Houle
+#' @export
+#' @rdname hashUntar
 #' @examples
-#' \dontrun{
-#' sim <- SpaDES::simInit(times = list(start = 0.0, end = 5.0),
-#'                        objects = list(),
-#'                        params = list(),
-#'                        modules = list(),
-#'                        paths = list(outputPath = tempdir()))
-#' url <- "ftp://knn4ftp:knn4ftp@tree.nfis.org/kNN-LandCover.tar"
-#' destfile <- tempdir()
-#' hashDownload(url, destfile, sim, module, destfile, checkhash = FALSE, cascade = FALSE)
-#' tar<- file.path(destfile, basename(url))
-#' hashUntar(tar, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE)
-#' }
-#'
-hashUntar <- function(tarfile, destfile, checkhash = FALSE, dbHash = "dbHash.sqlite", quick = FALSE) {
-  fx <- file_path_sans_ext(basename(tarfile))
-  if (checkhash) {
-    if (missing(dbHash)) {
-      stop("You must provide a name to database where checksum are or will be stored.")
-    }
+#' urlpath <- "ftp://sidads.colorado.edu/pub/DATASETS/NOAA/G02171/Hudson_Bay/2006"
+#' urlfile <-  "cis_SGRDRHB_20060904_pl_a.tar"
+#' url <- file.path(urlpath, urlfile)
+#' hashDownload(url, destfile = tempdir(), cascade = FALSE)
+#' tar<- file.path(tempdir(), basename(url))
+#' hashUntar(tar, tempdir(), checkhash= FALSE)
+hashUntar <-function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite"){
+  fx<- file_path_sans_ext(basename(tarfile))
+  if(checkhash){
+
     # Crosscheck with previous download
     con <- dbConnect(SQLite(), dbHash)
     if (!dbExistsTable(con, "checksum")) {

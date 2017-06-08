@@ -1,9 +1,9 @@
-################################################################################
-#' Creates a vector of url to download based on datasetName and filename.
+##################################################################################
+#' Retrive file available to download.
 #'
-#' Browse http and ftp site of interest using dataset name and store available dataset in a list.
-#' To list the data using dataset name, a \code{data.table} containing \code{datasetName},
-#' url of interest and password need to be previously created.
+#' The function produce a character vector of file available to download. It uses a preset table
+#' in which a list of relevant dataset name, their associate url and password are stored. To
+#' retrive available file, the function derive URL, and username/password using the \code{datasetName}
 #'
 #' @param urlTble A \code{data.table} that stores available dataset name, url,
 #'                password and filenames found within each dataset.
@@ -41,7 +41,7 @@ listWebData <- function(urlTble, datasetName, dfile) {
   if (missing(datasetName)) {
     stop("You must provide dataset name to access url of interest.")
   }
-  if (missing(dfile)) dfile <- "all"
+  #if (missing(dfile)) dfile <- "all"
   setkey(urlTble, "dataset")
   password <- as.character(urlTble[.(datasetName)][, 'password', with = FALSE])
   if (password == "NA") password <- NA_character_
@@ -49,56 +49,41 @@ listWebData <- function(urlTble, datasetName, dfile) {
 
   # Split url into typeConn(ftp, http) and address.
   typeConn <- paste(unlist(strsplit(url2data, "//"))[1], "//", sep = "")
+  address <- unlist(strsplit(url2data, "//"))[2]
 
   # Create list of file to download
   # FTP connection
   if (typeConn == "ftp://") {
-    if (isTRUE(dfile == "all")) {
-      # all files to download. No password for the ftp site
+      # No password for the ftp site
       if (is.na(password)) {
         file.list <- getURL(url2data, ftp.use.epsv = FALSE, dirlistonly = TRUE)
-      }
-      file.list <- strsplit(file.list,"\r*\n")[[1]]
-      file.list <- file.list[!file.list %in% c(".", "..")]
-      file.list <- paste(url2data, file.list, sep = "")
+        file.list <- strsplit(file.list,"\r*\n")[[1]]
+        file.list <- file.list[!file.list %in% c(".", "..")]
+        file.list <- paste(url2data, file.list, sep = "")
     } else {
-      # all files to download. Password needed for the ftp site
-      address <- unlist(strsplit(url2data, "//"))[2]
+      # Password needed
       file.list <- getURL(url2data, userpwd = password, ftp.use.epsv = FALSE, dirlistonly = TRUE)
       file.list <- strsplit(file.list,"\r*\n")[[1]]
       file.list <- file.list[!file.list %in% c(".","..")]
       file.list <- paste(typeConn, password, "@", address, file.list, sep = "")
     }
-  } else {
-    # Specific files to download on the ftp site no password required
-    if (is.na(password)) {
-      file.list <- paste(url2data, dfile, sep = "")
-    } else {
-      # Specific files to download on the ftp site, password is required
-      file.list <- paste(typeConn, password, "@", address, dfile, sep = "")
-    }
   }
 
   ## HTTP connection
   if (typeConn == "http://" | typeConn == "https://") {
-    if (isTRUE(dfile == "all")) {
       file.list <- readHTMLTable(url2data, skip.rows = 1:2)[[1]]$Name
       file.list <- paste(url2data, file.list[!is.na(file.list)], sep = "")
       file.list <- file.list[!file.list %in% c(".","..")]
-    } else {
-      file.list <- paste(url2data, dfile, sep = "")
-    }
   }
 
   return(file.list)
 }
 
-################################################################################
-#' Table of dataset accessible using url
+##################################################################################
+#' Table of relevant dataset accessible using url
 #'
-#' An R object that stores dataset with their respective url and username/password. This table makes the link between
-#' dataset name, url and username/password. By only poviding the dataset name, listWebdata and dwdData functions extract url
-#' username/password to access, extract and download data.
+#' An R object that stores dataset name with their respective url and username/password. The table is used
+#' by the function listWebDatabases to retrive file available to download by using only the dataset name.
 #'
 #' @rdname webdataset
 #' @return data.table object containing dataset available for download.

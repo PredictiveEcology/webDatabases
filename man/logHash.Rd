@@ -3,7 +3,7 @@
 \docType{methods}
 \name{logHash}
 \alias{logHash}
-\title{Log checksum from downloaded files into a SQLite database}
+\title{logHash write its required argument \code{hashdata} to a SQLite database.}
 \usage{
 logHash(hashdata, dbHash = "dbHash.sqlite")
 }
@@ -20,8 +20,7 @@ Default is \code{"dbHash.sqlite"}
 Invoked for its side-effect of logging filenames and checksum values into the SQL database.
 }
 \description{
-Log compiled checksum values from a specific file into a predetermine dbHash
-sqlite database following SQL language requirements.
+If the SQLite database already exists, \code{hashdata} argument is append if not already present.
 }
 \examples{
 destfile <-tempdir()

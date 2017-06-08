@@ -1,19 +1,11 @@
-################################################################################
-#' Download files from internet using url address and untar or unzip them.
+#' Download and store hash value from downloaded file.
 #'
-#' To avoid downloading existing files, the function verify if files exist locally,
-#' and compare checksum value from previous download.
+#' To avoid downloading existing files, the function verify if file exists locally prior to download.
+#' When file exists, the function compare checksum value from checksum logged from original download.
 #'
 #' @param urls A character string. Represents the url of file to be downloaded.
 #'
-#' @param destfile Character string giving the path where the downloaded file is saved.
-#'                 Default will use the \code{modulePath} from the \code{sim} object,
-#'                 if supplied with a module name, or a temporary location based on the
-#'                 url of the file(s).
-#'
-#' @param sim A \code{simList} simulation object, generally produced by \code{SpaDES::simInit}.
-#'
-#' @param module A character string. Represents the names of the module to be loaded for the simulation.
+#' @param destfile A character string giving the path where the downloaded file is saved.
 #'
 #' @param checkhash Logical. If \code{TRUE}, check if file exists locally and cross-check
 #'                  checksum value with value logged from previous download.
@@ -40,23 +32,15 @@
 #' @export
 #' @importFrom DBI dbConnect dbWriteTable dbReadTable dbExistsTable dbDisconnect
 #' @importFrom RSQLite SQLite
-#' @importFrom SpaDES modulePath
 #' @importFrom tools file_path_sans_ext file_ext
 #' @importFrom utils download.file
 #' @rdname hashDownload
 #'
 #' @examples
-#' sim <- SpaDES::simInit(times = list(start = 0.0, end = 5.0),
-#'                        objects = list(),
-#'                        params = list(),
-#'                        modules = list(),
-#'                        paths = list(outputPath = tempdir()))
-#' url <- "ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/ZMekis_Vincent_2011.pdf"
-#' hashDownload(urls = url, destfile = tempdir(), sim, module, checkhash = FALSE, cascade = FALSE)
-#'
-hashDownload <- function(urls, destfile, sim, module, checkhash = FALSE,
-                         quick = FALSE, dbHash = "dbHash.sqlite", cascade = FALSE,
-                         quiet = TRUE) {
+#' url <- "http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
+#' hashDownload(urls = url, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
+hashDownload <- function(urls, destfile, checkhash = TRUE, quick = FALSE,
+                         dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE) {
   cwd <- getwd()
   if (!missing(destfile)) {
     setwd(destfile)
@@ -67,14 +51,7 @@ hashDownload <- function(urls, destfile, sim, module, checkhash = FALSE,
   }
 
   if (missing(destfile)) {
-    if (!missing(sim)) {
-      if (missing(module)) {
-        stop("You must provide a module name, if you provide a simList.")
-      }
-      destfile <- file.path(modulePath(sim), module, "data")
-    } else {
-      destfile <- file.path(dirname(tempdir()),"data",file_path_sans_ext(basename(urls)))
-    }
+    stop("You must provide an output path to store downloaded file.")
   }
 
   # Crosscheck checksum value fromtable where checksum values from previous download are compiled.
@@ -131,7 +108,7 @@ hashDownload <- function(urls, destfile, sim, module, checkhash = FALSE,
         download.file(x, file.path(destfile, basename(x)), method = "auto", mode = "wb", quiet)
       })
       # Logged checksum value
-      hashdata < -hList(basename(file2dwd), destfile, quick)
+      hashdata <- hList(basename(file2dwd), destfile, quick)
       logHash(hashdata, dbHash)
       dbDisconnect(con)
     } else {
@@ -160,5 +137,4 @@ hashDownload <- function(urls, destfile, sim, module, checkhash = FALSE,
       }
     }))
   }
-  return(sim)
 }

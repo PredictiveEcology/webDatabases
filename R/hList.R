@@ -23,14 +23,15 @@
 #' @docType methods
 #' @export
 #' @importFrom digest digest
+#' @docType methods
+#' @author Melina Houle
+#' @export
 #' @rdname hList
-#'
 #' @examples
 #' outdir<- tempdir()
 #' file.list<- list.files(outdir)
-#' hfile <- hList(file.list, destfile = outdir, quick = TRUE)
-#'
-hList <- function(fList, destfile, quick = TRUE, csalgorithm = "xxhash64") {
+#' hfile <-hList(file.list, destfile = outdir, quick = TRUE)
+hList <-function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64"){
   path2file <- lapply(file.path(destfile, fList), function(x) {x[!file.info(x)$isdir]})
   fList <- unlist(lapply(path2file, function(x) {x[file.exists(x), drop = FALSE]}))
 

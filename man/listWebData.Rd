@@ -3,37 +3,32 @@
 \docType{methods}
 \name{listWebData}
 \alias{listWebData}
-\title{Creates a vector of url to download based on datasetName and filename.}
+\title{Retrive file available to download.}
 \usage{
-listWebData(urlTble, datasetName, dfile)
+listWebData(urlTble, datasetName)
 }
 \arguments{
-\item{urlTble}{A \code{data.table} that stores available dataset name, url,
-password and filenames found within each dataset.
-\code{urltble} is provided within the package as urls object.}
+\item{urlTble}{A \code{data.table} containing available \code{url}, \code{datasetName},
+\code{password} and code{filenames} found using the \code{url}. \code{urltble}
+is provided within the package as \code{urls} object.}
 
-\item{datasetName}{Character string. Represent the dataset of interest for download.
-\code{datasetName} allow to derived url and password from the \code{urltble}.}
-
-\item{dfile}{Character string representing filename of interest to download.
-When missing, all files from associated url given will be listed.}
+\item{datasetName}{A character string. Name of the dataset from which \code{url} and
+\code{password} can be derived from the \code{urltble}.}
 }
 \value{
-Vector of url to download.
+Vector of available url to download
 }
 \description{
-Browse http and ftp site of interest using dataset name and store available dataset in a list.
-To list the data using dataset name, a \code{data.table} containing \code{datasetName},
-url of interest and password need to be previously created.
+The function produce a character vector of file available to download. It uses a preset URL
+table in which a list of relevant dataset name, their associate url and password are stored.
+To retrive available file, the function derive URL and password using the datasetname.
 }
 \examples{
-dt <- data.table::data.table(
-  dataset = c("NFDB"),
-  url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
-  password = c(NA)
-)
-path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
-
+library(data.table)
+dt<- data.table(dataset = c("NFDB"),
+               url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
+               password= c(NA))
+listWebData(dt, datasetName = "NFDB")
 }
 \author{
 Melina Houle

@@ -1,8 +1,6 @@
-################################################################################
-#' Log checksum from downloaded files into a SQLite database
+#' logHash write its required argument \code{hashdata} to a SQLite database.
 #'
-#' Log compiled checksum values from a specific file into a predetermine dbHash
-#' sqlite database following SQL language requirements.
+#' If the SQLite database already exists, \code{hashdata} argument is append if not already present.
 #'
 #' @param hashdata A \code{data.frame} containing \code{filename}, \code{checksumFile},
 #'                 \code{checksumSize} and \code{algorithm} for each file are stored.
@@ -15,9 +13,10 @@
 #'
 #' @importFrom DBI dbConnect dbExistsTable dbWriteTable dbSendQuery dbFetch dbClearResult dbDisconnect
 #' @importFrom RSQLite SQLite
-#' @export
 #' @docType methods
 #' @author Melina Houle
+#' @export
+#' @rdname logHash
 #' @examples
 #' destfile <-tempdir()
 #' dbHash <- file.path(destfile, "dbHash.sqlite")
@@ -26,6 +25,7 @@
 #' logHash(hfile, dbHash)
 #'
 logHash <- function(hashdata, dbHash = "dbHash.sqlite") {
+
   con <- dbConnect(SQLite(), dbHash)
   if (!dbExistsTable(con, "checksum")) {
     dbWriteTable(con, "checksum",
