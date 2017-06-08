@@ -93,14 +93,6 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #' @export
 #' @rdname webdataset
 #'
-#' @examples
-#' dt <- data.table::data.table(
-#'   dataset = c("NFDB"),
-#'   url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
-#'   password = c(NA)
-#' )
-#' path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
-#
 urls <- data.table(
   dataset = c("AHCCD_daily",
               "NFDB",

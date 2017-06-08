@@ -10,12 +10,13 @@
 #'
 #' @return Invoked for its side-effect of logging filenames and checksum values into the SQL database.
 #'
+#' @author Melina Houle
+#' @docType methods
+#' @export
 #' @importFrom DBI dbConnect dbExistsTable dbWriteTable dbSendQuery dbFetch dbClearResult dbDisconnect
 #' @importFrom RSQLite SQLite
-#' @docType methods
-#' @author Melina Houle
-#' @export
 #' @rdname logHash
+#'
 #' @examples
 #' destfile <-tempdir()
 #' dbHash <- file.path(destfile, "dbHash.sqlite")

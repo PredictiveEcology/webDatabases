@@ -12,13 +12,13 @@
 #' @return Untarred/unzipped \code{tarfile} in a subfolder under \code{destfile} using
 #'         \code{basename{tarfile}} name.
 #'
+#' @author Melina Houle
+#' @docType methods
+#' @export
 #' @importFrom utils untar
 #' @importFrom tools file_path_sans_ext
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
 #' @importFrom RSQLite SQLite
-#' @docType methods
-#' @author Melina Houle
-#' @export
 #' @rdname hashUntar
 #'
 #' @examples

@@ -16,14 +16,6 @@ Stores dataset name with their respective url and username/password.
 The table is used by \code{listWebDatabases} to retrive file available to
 download by using only the dataset name.
 }
-\examples{
-dt <- data.table::data.table(
-  dataset = c("NFDB"),
-  url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
-  password = c(NA)
-)
-path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
-}
 \author{
 Melina Houle
 }
