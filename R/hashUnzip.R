@@ -1,7 +1,7 @@
 ################################################################################
 #' Extract files from a zip archive downloaded and log checksum value
 #'
-#' unzip dataset previously downloaded from url, first checking if
+#' Unzip dataset previously downloaded from url, first checking if
 #' unzip was previously performed (unzip file exists locally).
 #'
 #' @param zipfile A character vector. Contains path to zipfile.

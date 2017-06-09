@@ -1,18 +1,18 @@
 ################################################################################
-#' Download and store hash value from downloaded file.
+#' Download and store hash value from downloaded file
 #'
-#' To avoid downloading existing files, the function verify if file exists locally prior to download.
-#' When file exists, the function compare checksum value from checksum logged from original download.
+#' To avoid redownloading existing files, verify if the file exists locally.
+#' If the file exists, compare the checksum value to that logged by original download.
 #'
 #' @param urls A character string. Represents the url of file to be downloaded.
 #'
 #' @param destfile A character string. Represents the name where resulting file is saved.
 #'
-#' @param checkhash Logical. If \code{TRUE} (default), check if file exists locally and cross-check
-#'                  checksum value with value logged from previous event.
-#'                  When checksums match, the function is not executed.
+#' @param checkhash Logical. If \code{TRUE} (default), check if file exists locally
+#'                  and cross-check the file's checksum value with that logged
+#'                  from a previous event, skippng redownload if checksum matches.
 #'                  When checksums don't match or file doesn't exist locally,
-#'                  the function is initiated and checksum is computed.
+#'                  the file is downloaded and its checksum computed.
 #'                  If \code{FALSE}, the function is executed even if the file
 #'                  is found locally.
 #'
@@ -20,7 +20,8 @@
 #'              of the filename and its size.
 #'              If \code{FALSE} (default), cheksum is compiled using the object.
 #'
-#' @param dbHash Character string. The path to the database file where checksum value of file is logged.
+#' @param dbHash Character string. The path to the database file where checksum
+#'               value of file is logged.
 #'               If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.
 #'
 #' @param cascade Logical. If \code{FALSE}, file is untar and/or unzip. Default is \code{FALSE}.

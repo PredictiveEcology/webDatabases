@@ -13,11 +13,11 @@ hashUntar(tarfile, destfile, checkhash = TRUE, quick = FALSE,
 
 \item{destfile}{A character string. Represents the name where resulting file is saved.}
 
-\item{checkhash}{Logical. If \code{TRUE} (default), check if file exists locally and cross-check
-checksum value with value logged from previous event.
-When checksums match, the function is not executed.
+\item{checkhash}{Logical. If \code{TRUE} (default), check if file exists locally
+and cross-check the file's checksum value with that logged
+from a previous event, skippng redownload if checksum matches.
 When checksums don't match or file doesn't exist locally,
-the function is initiated and checksum is computed.
+the file is downloaded and its checksum computed.
 If \code{FALSE}, the function is executed even if the file
 is found locally.}
 
@@ -25,7 +25,8 @@ is found locally.}
 of the filename and its size.
 If \code{FALSE} (default), cheksum is compiled using the object.}
 
-\item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
+\item{dbHash}{Character string. The path to the database file where checksum
+value of file is logged.
 If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 }
 \value{
@@ -33,9 +34,9 @@ Untarred/unzipped \code{tarfile} in a subfolder under \code{destfile} using
         \code{basename{tarfile}} name.
 }
 \description{
-Prior to untar, the function check if untar was previously performed (untarred file exist
-locally) and compare checksum value from previous event when present. Untar is performed
-when file doesn't exists or checksums don't match.
+Prior to untar, the function check if untar was previously performed (untarred
+file exist locally) and compare checksum value from previous event when present.
+Untar is performed when file doesn't exists or checksums don't match.
 }
 \examples{
 urlpath <- "ftp://sidads.colorado.edu/pub/DATASETS/NOAA/G02171/Hudson_Bay/2006"

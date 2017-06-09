@@ -1,12 +1,12 @@
 ################################################################################
-#' logHash write its required argument \code{hashdata} to a SQLite database.
+#' Write \code{hashdata} to SQLite database
 #'
 #' If the SQLite database already exists, \code{hashdata} argument is append if not already present.
 #'
+#' @inheritParams hashDownload
+#'
 #' @param hashdata A \code{data.frame} containing \code{filename}, \code{checksumFile},
 #'                 \code{checksumSize} and \code{algorithm} for each file are stored.
-#'
-#' @inheritParams hashDownload
 #'
 #' @return Invoked for its side-effect of logging filenames and checksum values into the SQL database.
 #'
@@ -25,7 +25,6 @@
 #' logHash(hfile, dbHash)
 #'
 logHash <- function(hashdata, dbHash = "dbHash.sqlite") {
-
   con <- dbConnect(SQLite(), dbHash)
   if (!dbExistsTable(con, "checksum")) {
     dbWriteTable(con, "checksum", .hdf(), overwrite = TRUE, field.types = NULL)

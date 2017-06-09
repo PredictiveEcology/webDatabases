@@ -5,7 +5,7 @@
 #' \code{data.table} in which a list of relevant dataset name, their associate url and password
 #' are stored. To retrive available file, the function derive URL, and username/password using
 #' the \code{datasetName}.
-
+#'
 #' @param urlTble A \code{data.table} that stores available dataset name, url,
 #'                password and filenames found within each dataset.
 #'                \code{urltble} is provided within the package as urls object.
@@ -21,10 +21,10 @@
 #' @author Melina Houle
 #' @docType methods
 #' @export
-#' @importFrom RCurl getURL
-#' @importFrom XML readHTMLTable
 #' @importFrom data.table setkey
 #' @importFrom plyr .
+#' @importFrom RCurl getURL
+#' @importFrom XML readHTMLTable
 #' @rdname listWebData
 #'
 #' @examples

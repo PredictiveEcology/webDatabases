@@ -8,7 +8,7 @@
 hList(fList, destfile, quick = FALSE, csalgorithm = "xxhash64")
 }
 \arguments{
-\item{fList}{A character vector representing filename}
+\item{fList}{A character vector representing filename.}
 
 \item{destfile}{A character string giving file to path to file.}
 
@@ -17,8 +17,7 @@ of the filename and its size.
 If \code{FALSE} (default), cheksum is compiled using the object.}
 
 \item{csalgorithm}{A character string representing the algorithms used by the
-digest function. Default is \code{"xxhash64"}
-.}
+digest function. Default is \code{"xxhash64"}.}
 }
 \value{
 \code{data.frame} where filename, checksum value from the object
@@ -26,8 +25,8 @@ digest function. Default is \code{"xxhash64"}
         size and the algorithm used to compute checksum values are stored.
 }
 \description{
-The function stores in a \code{data.frame} the filename and its checksum value.
-Checksum is computed using the digest function (see Details of \code{\link[digest]{digest}}).
+Stores, in a \code{data.frame}, the filename and its checksum value (computed
+using the \code{\link[digest]{digest}}).
 }
 \examples{
 outdir <- tempdir()

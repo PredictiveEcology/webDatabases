@@ -1,13 +1,13 @@
 ################################################################################
 #' Extract files from a tar archive and log checksum value to avoid repeating event
 #'
-#' Prior to untar, the function check if untar was previously performed (untarred file exist
-#' locally) and compare checksum value from previous event when present. Untar is performed
-#' when file doesn't exists or checksums don't match.
-#'
-#' @param tarfile A character string. Represents path to tarfile.
+#' Prior to untar, the function check if untar was previously performed (untarred
+#' file exist locally) and compare checksum value from previous event when present.
+#' Untar is performed when file doesn't exists or checksums don't match.
 #'
 #' @inheritParams hashDownload
+#'
+#' @param tarfile A character string. Represents path to tarfile.
 #'
 #' @return Untarred/unzipped \code{tarfile} in a subfolder under \code{destfile} using
 #'         \code{basename{tarfile}} name.
@@ -15,10 +15,10 @@
 #' @author Melina Houle
 #' @docType methods
 #' @export
-#' @importFrom utils untar
-#' @importFrom tools file_path_sans_ext
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
 #' @importFrom RSQLite SQLite
+#' @importFrom tools file_path_sans_ext
+#' @importFrom utils untar
 #' @rdname hashUntar
 #'
 #' @examples
@@ -29,10 +29,9 @@
 #' tar<- file.path(tempdir(), basename(url))
 #' hashUntar(tar, tempdir(), checkhash= FALSE)
 #'
-hashUntar <- function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite"){
+hashUntar <- function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite") {
   fx <- file_path_sans_ext(basename(tarfile))
   if (checkhash) {
-
     # Crosscheck with previous download
     con <- dbConnect(SQLite(), dbHash)
     if (!dbExistsTable(con, "checksum")) {
@@ -75,7 +74,7 @@ hashUntar <- function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash
       logHash(checksum, dbHash)
 
       # Unzip and checksum
-      file.list <- unlist(lapply(fileNames, function(x) {file.path(dataPath, x)}))
+      file.list <- unlist(lapply(fileNames, function(x) file.path(dataPath, x)))
       lapply(file.list, function(i) if (file_ext(i) == "zip") {
         hashUnzip(i, dataPath, checkhash = checkhash, quick = quick, dbHash = dbHash)
       })

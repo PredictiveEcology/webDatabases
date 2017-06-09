@@ -3,7 +3,7 @@
 \docType{methods}
 \name{hashDownload}
 \alias{hashDownload}
-\title{Download and store hash value from downloaded file.}
+\title{Download and store hash value from downloaded file}
 \usage{
 hashDownload(urls, destfile, checkhash = TRUE, quick = FALSE,
   dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE)
@@ -13,11 +13,11 @@ hashDownload(urls, destfile, checkhash = TRUE, quick = FALSE,
 
 \item{destfile}{A character string. Represents the name where resulting file is saved.}
 
-\item{checkhash}{Logical. If \code{TRUE} (default), check if file exists locally and cross-check
-checksum value with value logged from previous event.
-When checksums match, the function is not executed.
+\item{checkhash}{Logical. If \code{TRUE} (default), check if file exists locally
+and cross-check the file's checksum value with that logged
+from a previous event, skippng redownload if checksum matches.
 When checksums don't match or file doesn't exist locally,
-the function is initiated and checksum is computed.
+the file is downloaded and its checksum computed.
 If \code{FALSE}, the function is executed even if the file
 is found locally.}
 
@@ -25,7 +25,8 @@ is found locally.}
 of the filename and its size.
 If \code{FALSE} (default), cheksum is compiled using the object.}
 
-\item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
+\item{dbHash}{Character string. The path to the database file where checksum
+value of file is logged.
 If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 
 \item{cascade}{Logical. If \code{FALSE}, file is untar and/or unzip. Default is \code{FALSE}.}
@@ -36,8 +37,8 @@ If the database does not yet exist, one is created. Default is \code{"dbHash.sql
 Invoked for its side-effect of downloading files to the \code{destfile/} directory.
 }
 \description{
-To avoid downloading existing files, the function verify if file exists locally prior to download.
-When file exists, the function compare checksum value from checksum logged from original download.
+To avoid redownloading existing files, verify if the file exists locally.
+If the file exists, compare the checksum value to that logged by original download.
 }
 \examples{
 url <- "http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"

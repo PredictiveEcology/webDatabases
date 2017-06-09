@@ -1,18 +1,18 @@
 ################################################################################
 #' Extract checksum value from file
 #'
-#' The function stores in a \code{data.frame} the filename and its checksum value.
-#' Checksum is computed using the digest function (see Details of \code{\link[digest]{digest}}).
+#' Stores, in a \code{data.frame}, the filename and its checksum value (computed
+#' using the \code{\link[digest]{digest}}).
 #'
-#' @param fList A character vector representing filename
+#' @param fList A character vector representing filename.
 #'
 #' @param destfile A character string giving file to path to file.
 #'
 #' @inheritParams hashDownload
 #'
 #' @param csalgorithm A character string representing the algorithms used by the
-#'                    digest function. Default is \code{"xxhash64"}
-#'                    .
+#'                    digest function. Default is \code{"xxhash64"}.
+#'
 #' @return \code{data.frame} where filename, checksum value from the object
 #'         (checksumFile), checksum value from the combination of filename and file
 #'         size and the algorithm used to compute checksum values are stored.
@@ -29,8 +29,8 @@
 #' hfile <- hList(file.list, destfile = outdir, quick = TRUE)
 #'
 hList <- function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64") {
-  path2file <- lapply(file.path(destfile, fList), function(x) {x[!file.info(x)$isdir]})
-  fList <- unlist(lapply(path2file, function(x) {x[file.exists(x), drop = FALSE]}))
+  path2file <- lapply(file.path(destfile, fList), function(x) x[!file.info(x)$isdir])
+  fList <- unlist(lapply(path2file, function(x) x[file.exists(x), drop = FALSE]))
 
   if (length(fList) == 0) {
     hdata <- .hdf()

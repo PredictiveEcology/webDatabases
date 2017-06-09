@@ -3,7 +3,7 @@
 \docType{methods}
 \name{logHash}
 \alias{logHash}
-\title{logHash write its required argument \code{hashdata} to a SQLite database.}
+\title{Write \code{hashdata} to SQLite database}
 \usage{
 logHash(hashdata, dbHash = "dbHash.sqlite")
 }
@@ -11,7 +11,8 @@ logHash(hashdata, dbHash = "dbHash.sqlite")
 \item{hashdata}{A \code{data.frame} containing \code{filename}, \code{checksumFile},
 \code{checksumSize} and \code{algorithm} for each file are stored.}
 
-\item{dbHash}{Character string. The path to the database file where checksum value of file is logged.
+\item{dbHash}{Character string. The path to the database file where checksum
+value of file is logged.
 If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
 }
 \value{
