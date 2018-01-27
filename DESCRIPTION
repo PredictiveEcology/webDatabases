@@ -29,7 +29,8 @@ Imports:
   data.table,
   RSQLite,
   plyr,
-  raster, 
+  raster,
+  sf,
   sp
 Suggests:
   knitr,
