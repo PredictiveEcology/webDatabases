@@ -1,6 +1,6 @@
 Package: webDatabases
 Type: Package
-Title: Find And Download Canadian Forestry Data
+Title: Find And Download Canadian Forestry, Ecological And Other Natural Places Data
 Description: A set of functions for finding and downloading web datasets,
     with an initial focus on datasets relevant for work in Canadian forests.
 Version: 0.0.1
@@ -18,9 +18,6 @@ Authors@R: c(
 Depends: R (>= 3.3.0)
 Imports:
   digest,
-  httr,
-  magrittr,
-  methods,
   utils,
   DBI,
   XML,
@@ -28,9 +25,7 @@ Imports:
   RCurl,
   data.table,
   RSQLite,
-  plyr,
-  raster,
-  sp
+  plyr
 Suggests:
   knitr,
   rmarkdown,
