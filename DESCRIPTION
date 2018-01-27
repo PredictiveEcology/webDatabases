@@ -30,7 +30,6 @@ Imports:
   RSQLite,
   plyr,
   raster,
-  sf,
   sp
 Suggests:
   knitr,
