@@ -43,6 +43,7 @@ matrix:
     - devtools
     - digest
     - rlang
+    - stringi
 
   - os: osx
     osx_image: xcode8
