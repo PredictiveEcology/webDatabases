@@ -19,6 +19,8 @@ matrix:
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start
     - echo "options(repos = c(CRAN='https://cran.rstudio.com'))" >> ~/.Rprofile
+    r_packages:
+    - rlang
 
   - os: linux
     dist: trusty
