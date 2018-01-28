@@ -41,6 +41,7 @@ matrix:
     - echo "options(repos = c(CRAN='https://cran.rstudio.com'))" >> ~/.Rprofile
     r_packages:
     - devtools
+    - digest
 
   - os: osx
     osx_image: xcode8
