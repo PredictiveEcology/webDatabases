@@ -42,6 +42,7 @@ matrix:
     r_packages:
     - devtools
     - digest
+    - rlang
 
   - os: osx
     osx_image: xcode8
