@@ -85,16 +85,35 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #' Running this will get latest version of the urls, returned as a data.table.
 #'
 #' @return
-#' Data.table with 4 columns, dataset, url, password (currently all NA), files, keyed by dataset, files
+#' Data.table with 4 \code{columns}, \code{dataset}, \code{url}, \code{password},
+#' and \code{files}, keyed by \code{dataset},
+#'  \code{files}
 #'
-#' @param wide Logical. If TRUE, the result is returned in long format.
+#' @param wide Logical. If \code{TRUE}, the result is returned in long format.
+#' @param dbUrl Character string where to look for web database. Defaults to:
+#' \code{https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R}
+#' @param wide Logical. If \code{TRUE}, returns the wide form of database. Default \code{FALSE}
 #' @importFrom data.table data.table
-webDatabases <- function(wide = TRUE) {
-  source("https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R", local = TRUE)
-  if (wide) {
-    urls <- urlsWide()[ , list( files = unlist( files )) , by = "dataset,url,password" ]
+#' @importFrom RCurl url.exists
+#' @export
+webDatabases <- function(dbUrl = "https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R",
+                         local = FALSE, wide = FALSE) {
+  if (!local) {
+    if (!RCurl::url.exists(dbUrl)) {
+      local <- FALSE
+    }
+  }
+  if (!local) {
+    source(dbUrl, local = TRUE)
+    message("Database retrieved from PredictiveEcology/webDatabases")
+  } else {
+    message("Database retrieved locally because ", dbUrl, " is not reachable")
+  }
+
+  urls <- urlsWide()
+  if (!wide) {
+    urls <- urls[ , list( files = unlist( files )) , by = "dataset,url,password" ]
     setkey(urls, dataset, files)
   }
-  message("Database retrieved from PredictiveEcology/webDatabases")
   urls
 }
