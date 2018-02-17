@@ -44,4 +44,5 @@ Collate:
     'logHash.R'
     'hashUntar.R'
     'hashUnzip.R'
+    'webDatabases.R'
 RoxygenNote: 6.0.1
