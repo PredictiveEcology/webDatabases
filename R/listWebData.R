@@ -21,7 +21,7 @@
 #' @author Melina Houle
 #' @docType methods
 #' @export
-#' @importFrom data.table setkey
+#' @importFrom data.table setkey data.table
 #' @importFrom plyr .
 #' @importFrom RCurl getURL
 #' @importFrom XML readHTMLTable
@@ -93,7 +93,8 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #' @export
 #' @rdname webdataset
 #'
-urls <- data.table(
+urlsWide <- function() {
+  data.table(
   dataset = c("AHCCD_daily",
               "NFDB",
               "KNN",
@@ -104,7 +105,7 @@ urls <- data.table(
               "EOSD2000"),
   url = c("ftp://ccrp.tor.ec.gc.ca/pub/EC_data/AHCCD_daily/",
           "http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/",
-          "ftp://tree.nfis.org/",
+          "http://tree.nfis.org/",
           "ftp://ftp.nofc.cfs.nrcan.gc.ca/uploads/MPB/",
           "ftp://ftp.ccrs.nrcan.gc.ca/ad/NLCCLandCover/LandcoverCanada2005_250m/",
           "http://www.cec.org/sites/default/files/Atlas/Files/Land_Cover_2005/",
@@ -112,7 +113,7 @@ urls <- data.table(
           "http://tree.pfc.forestry.ca/"),
   password = c(NA,
                NA,
-               "knn4ftp:knn4ftp",
+               NA,
                NA,
                NA,
                NA,
@@ -140,3 +141,11 @@ urls <- data.table(
     c("Land_Cover_2010_TIFF.zip"),
     c(""))
 )
+}
+
+#' @importFrom data.table data.table
+urls <- function() {
+  source("https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/listWebData.R", local = TRUE)
+  urls <- urlsWide[ , list( filesLong = unlist( files )) , by = "dataset,url,password" ]
+  urls
+}
