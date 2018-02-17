@@ -4,13 +4,22 @@
 \alias{webDatabases}
 \title{Grab the current version of the urls from the git repository.}
 \usage{
-webDatabases(wide = TRUE)
+
+  webDatabases(dbUrl = "https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R",
+  local = FALSE, wide = FALSE)
 }
 \arguments{
-\item{wide}{Logical. If TRUE, the result is returned in long format.}
+\item{dbUrl}{Character string where to look for web database. Defaults to:
+\code{https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R}}
+
+\item{wide}{Logical. If \code{TRUE}, the result is returned in long format.}
+
+\item{wide}{Logical. If \code{TRUE}, returns the wide form of database. Default \code{FALSE}}
 }
 \value{
-Data.table with 4 columns, dataset, url, password (currently all NA), files, keyed by dataset, files
+Data.table with 4 \code{columns}, \code{dataset}, \code{url}, \code{password},
+and \code{files}, keyed by \code{dataset},
+ \code{files}
 }
 \description{
 Running this will get latest version of the urls, returned as a data.table.

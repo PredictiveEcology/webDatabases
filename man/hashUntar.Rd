@@ -50,3 +50,4 @@ hashUntar(tar, tempdir(), checkhash= FALSE)
 \author{
 Melina Houle
 }
+\keyword{internal}

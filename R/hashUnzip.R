@@ -13,11 +13,11 @@
 #'
 #' @author Melina Houle
 #' @docType methods
-#' @export
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
 #' @importFrom RSQLite SQLite
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils unzip
+#' @keywords internal
 #' @rdname hashUnzip
 #'
 #' @examples

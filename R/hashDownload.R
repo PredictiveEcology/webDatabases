@@ -32,12 +32,12 @@
 #'
 #' @author Melina Houle
 #' @docType methods
-#' @export
 #' @importFrom DBI dbConnect dbWriteTable dbReadTable dbExistsTable dbDisconnect
 #' @importFrom RSQLite SQLite
 #' @importFrom tools file_path_sans_ext file_ext
 #' @importFrom utils download.file
 #' @rdname hashDownload
+#' @keywords internal
 #'
 #' @examples
 #' url <- "http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"

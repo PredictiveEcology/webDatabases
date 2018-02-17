@@ -12,9 +12,9 @@
 #'
 #' @author Melina Houle
 #' @docType methods
-#' @export
 #' @importFrom DBI dbConnect dbExistsTable dbWriteTable dbSendQuery dbFetch dbClearResult dbDisconnect
 #' @importFrom RSQLite SQLite
+#' @keywords internal
 #' @rdname logHash
 #'
 #' @examples

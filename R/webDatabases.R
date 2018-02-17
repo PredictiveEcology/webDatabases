@@ -10,7 +10,7 @@
 #' @author Melina Houle
 #' @docType methods
 #' @importFrom data.table data.table
-#' @export
+#' @keywords internal
 #' @rdname webdataset
 #'
 urlsWide <- function() {

@@ -19,8 +19,8 @@
 #'
 #' @author Melina Houle
 #' @docType methods
-#' @export
 #' @importFrom digest digest
+#' @keywords internal
 #' @rdname hList
 #'
 #' @examples

@@ -48,3 +48,4 @@ hashDownload(urls = url, destfile = tempdir(), checkhash = FALSE, cascade = FALS
 \author{
 Melina Houle
 }
+\keyword{internal}

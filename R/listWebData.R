@@ -20,11 +20,12 @@
 #'
 #' @author Melina Houle
 #' @docType methods
-#' @export
+#' @keywords internal
 #' @importFrom data.table setkey data.table
 #' @importFrom plyr .
 #' @importFrom RCurl getURL
 #' @importFrom XML readHTMLTable
+#' @keywords internal
 #' @rdname listWebData
 #'
 #' @examples

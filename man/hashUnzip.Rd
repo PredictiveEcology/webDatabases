@@ -47,3 +47,4 @@ hashUnzip(zip, tempdir(), checkhash = FALSE)
 \author{
 Melina Houle
 }
+\keyword{internal}
