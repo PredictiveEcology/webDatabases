@@ -38,11 +38,10 @@ Unzip dataset previously downloaded from url, first checking if
 unzip was previously performed (unzip file exists locally).
 }
 \examples{
-url <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
-hashDownload(url, destfile = tempdir(), checkhash= FALSE, cascade = FALSE)
-zip <- file.path(tempdir(), basename(url))
+u <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
+hashDownload(u, destfile = tempdir(), checkhash= FALSE, cascade = FALSE)
+zip <- file.path(tempdir(), basename(u))
 hashUnzip(zip, tempdir(), checkhash = FALSE)
-
 }
 \author{
 Melina Houle

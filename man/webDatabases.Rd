@@ -2,17 +2,18 @@
 % Please edit documentation in R/listWebData.R
 \name{webDatabases}
 \alias{webDatabases}
-\title{Grab the current version of the urls from the git repository.}
+\title{Grab the current version of the urls either locally or from the git repository}
 \usage{
-
-  webDatabases(dbUrl = "https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R",
-  local = FALSE, wide = FALSE)
+webDatabases(dbUrl = NULL, local = FALSE, wide = FALSE)
 }
 \arguments{
-\item{dbUrl}{Character string where to look for web database. Defaults to:
-\code{https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R}}
+\item{dbUrl}{Character string where to look for web database. Defaults to the web database
+See details.}
 
-\item{wide}{Logical. If \code{TRUE}, the result is returned in long format.}
+\item{local}{Logical. If \code{FALSE} the function gets the latest webDatabase table from the online
+repository. This will allow for the user to be always up to date, but it also slower than
+\code{TRUE}. If \code{TRUE}, then this will take the version of the webDatabase that
+existed when the user installed the package.}
 
 \item{wide}{Logical. If \code{TRUE}, returns the wide form of database. Default \code{FALSE}}
 }
@@ -23,4 +24,18 @@ and \code{files}, keyed by \code{dataset},
 }
 \description{
 Running this will get latest version of the urls, returned as a data.table.
+}
+\details{
+The current webDatabase is located at
+\href{https://github.com/PredictiveEcology/webDatabases/blob/master/R/webDatabases.R}{
+Web Database}
+}
+\examples{
+data <- webDatabases()
+
+# Which datasets are available?
+unique(data$dataset)
+
+# pick out KNN
+data[dataset=="KNN"]
 }

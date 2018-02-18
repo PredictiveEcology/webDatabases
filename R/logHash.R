@@ -16,14 +16,16 @@
 #' @importFrom RSQLite SQLite
 #' @keywords internal
 #' @rdname logHash
+#' @export
 #'
 #' @examples
+#' \dontrun{
 #' destfile <-tempdir()
 #' dbHash <- file.path(destfile, "dbHash.sqlite")
 #' file.list<- list.files(destfile)
 #' hfile <- hList(file.list, destfile, quick = TRUE)
 #' logHash(hfile, dbHash)
-#'
+#' }
 logHash <- function(hashdata, dbHash = "dbHash.sqlite") {
   con <- dbConnect(SQLite(), dbHash)
   if (!dbExistsTable(con, "checksum")) {

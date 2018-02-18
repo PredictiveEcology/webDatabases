@@ -20,15 +20,15 @@
 #' @importFrom utils untar
 #' @keywords internal
 #' @rdname hashUntar
+#' @export
 #'
 #' @examples
-#' urlpath <- "ftp://sidads.colorado.edu/pub/DATASETS/NOAA/G02171/Hudson_Bay/2006"
-#' urlfile <-  "cis_SGRDRHB_20060904_pl_a.tar"
-#' url <- file.path(urlpath, urlfile)
-#' hashDownload(url, destfile = tempdir(), cascade = FALSE)
-#' tar<- file.path(tempdir(), basename(url))
-#' hashUntar(tar, tempdir(), checkhash= FALSE)
-#'
+#'   urlpath <- "ftp://sidads.colorado.edu/pub/DATASETS/NOAA/G02171/Hudson_Bay/2006"
+#'   urlfile <-  "cis_SGRDRHB_20060904_pl_a.tar"
+#'   url <- file.path(urlpath, urlfile)
+#'   hashDownload(url, destfile = tempdir(), cascade = FALSE)
+#'   tar<- file.path(tempdir(), basename(url))
+#'   hashUntar(tar, tempdir(), checkhash= FALSE)
 hashUntar <- function(tarfile, destfile, checkhash = TRUE, quick = FALSE, dbHash = "dbHash.sqlite") {
   fx <- file_path_sans_ext(basename(tarfile))
   if (checkhash) {

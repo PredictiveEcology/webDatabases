@@ -1,3 +1,7 @@
+if (getRversion() >= "3.1.0") {
+  utils::globalVariables(c("dataset", "files"))
+}
+
 ################################################################################
 #' Retrive file available to download.
 #'
@@ -29,13 +33,14 @@
 #' @rdname listWebData
 #'
 #' @examples
+#' \dontrun{
 #' dt <- data.table::data.table(
 #'   dataset = c("NFDB"),
 #'   url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
 #'   password = c(NA)
 #' )
 #' path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
-#'
+#' }
 listWebData <- function(urlTble, datasetName, dfile) {
   if (missing(urlTble)) {
     stop("You must provide a data.table that contain the link between url, datasetName and password.")
@@ -80,7 +85,7 @@ listWebData <- function(urlTble, datasetName, dfile) {
 }
 
 
-#' Grab the current version of the urls from the git repository.
+#' Grab the current version of the urls either locally or from the git repository
 #'
 #' Running this will get latest version of the urls, returned as a data.table.
 #'
@@ -89,21 +94,42 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #' and \code{files}, keyed by \code{dataset},
 #'  \code{files}
 #'
-#' @param wide Logical. If \code{TRUE}, the result is returned in long format.
-#' @param dbUrl Character string where to look for web database. Defaults to:
-#' \code{https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R}
+#' @param dbUrl Character string where to look for web database. Defaults to the web database
+#'              See details.
+#'
+#' @param local Logical. If \code{FALSE} the function gets the latest webDatabase table from the online
+#'              repository. This will allow for the user to be always up to date, but it also slower than
+#'              \code{TRUE}. If \code{TRUE}, then this will take the version of the webDatabase that
+#'              existed when the user installed the package.
+#'
 #' @param wide Logical. If \code{TRUE}, returns the wide form of database. Default \code{FALSE}
+#'
+#' @details
+#' The current webDatabase is located at
+#' \href{https://github.com/PredictiveEcology/webDatabases/blob/master/R/webDatabases.R}{
+#' Web Database}
 #' @importFrom data.table data.table
 #' @importFrom RCurl url.exists
 #' @export
-webDatabases <- function(dbUrl = "https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R",
+#' @examples
+#' data <- webDatabases()
+#'
+#' # Which datasets are available?
+#' unique(data$dataset)
+#'
+#' # pick out KNN
+#' data[dataset=="KNN"]
+webDatabases <- function(dbUrl = NULL,
                          local = FALSE, wide = FALSE) {
+
   if (!local) {
     if (!RCurl::url.exists(dbUrl)) {
       local <- FALSE
     }
   }
   if (!local) {
+    if (is.null(dbUrl))
+      dbUrl <- "https://raw.githubusercontent.com/PredictiveEcology/webDatabases/master/R/webDatabases.R"
     source(dbUrl, local = TRUE)
     message("Database retrieved from PredictiveEcology/webDatabases")
   } else {

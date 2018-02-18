@@ -11,6 +11,7 @@
 #' @docType methods
 #' @importFrom data.table data.table
 #' @keywords internal
+#' @export
 #' @rdname webdataset
 #'
 urlsWide <- function() {

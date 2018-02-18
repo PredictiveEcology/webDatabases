@@ -41,9 +41,8 @@ To avoid redownloading existing files, verify if the file exists locally.
 If the file exists, compare the checksum value to that logged by original download.
 }
 \examples{
-url <- "http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
-hashDownload(urls = url, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
-
+u <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
+hashDownload(urls = u, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
 }
 \author{
 Melina Houle

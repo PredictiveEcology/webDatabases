@@ -28,13 +28,14 @@ are stored. To retrive available file, the function derive URL, and username/pas
 the \code{datasetName}.
 }
 \examples{
+\dontrun{
 dt <- data.table::data.table(
   dataset = c("NFDB"),
   url = c("http://cwfis.cfs.nrcan.gc.ca/downloads/nfdb/fire_poly/current_version/"),
   password = c(NA)
 )
 path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
-
+}
 }
 \author{
 Melina Houle

@@ -18,14 +18,14 @@
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils unzip
 #' @keywords internal
+#' @export
 #' @rdname hashUnzip
 #'
 #' @examples
-#' url <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
-#' hashDownload(url, destfile = tempdir(), checkhash= FALSE, cascade = FALSE)
-#' zip <- file.path(tempdir(), basename(url))
+#' u <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
+#' hashDownload(u, destfile = tempdir(), checkhash= FALSE, cascade = FALSE)
+#' zip <- file.path(tempdir(), basename(u))
 #' hashUnzip(zip, tempdir(), checkhash = FALSE)
-#'
 hashUnzip <- function(zipfile, destfile, checkhash = TRUE, quick = FALSE,
                       dbHash = "dbHash.sqlite") {
   fn <- file_path_sans_ext(basename(zipfile))

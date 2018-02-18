@@ -21,12 +21,13 @@
 #' @docType methods
 #' @importFrom digest digest
 #' @keywords internal
+#' @export
 #' @rdname hList
 #'
 #' @examples
-#' outdir <- tempdir()
-#' file.list <- list.files(outdir)
-#' hfile <- hList(file.list, destfile = outdir, quick = TRUE)
+#'   outdir <- tempdir()
+#'   file.list <- list.files(outdir)
+#'   webDatabases::hList(file.list, destfile = outdir, quick = TRUE)
 #'
 hList <- function(fList, destfile, quick = FALSE, csalgorithm = "xxhash64") {
   path2file <- lapply(file.path(destfile, fList), function(x) x[!file.info(x)$isdir])
