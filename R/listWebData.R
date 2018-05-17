@@ -104,9 +104,11 @@ listWebData <- function(urlTbl, datasetName, dfile) {
 #' @return A data.table with 4 \code{columns}, \code{dataset}, \code{url}, \code{password},
 #' and \code{files}, keyed by \code{dataset}, \code{files}.
 #'
+#' @author Melina Houle
 #' @export
 #' @importFrom data.table data.table
 #' @importFrom RCurl url.exists
+#' @include webDatabases.R
 #'
 #' @examples
 #' data <- webDatabases()

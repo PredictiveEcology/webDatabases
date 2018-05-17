@@ -38,11 +38,11 @@ LazyData: true
 VignetteBuilder: knitr, rmarkdown
 Collate: 
     'aaa.R'
-    'hashDownload.R'
     'hList.R'
-    'listWebData.R'
-    'logHash.R'
+    'hashDownload.R'
     'hashUntar.R'
     'hashUnzip.R'
     'webDatabases.R'
+    'listWebData.R'
+    'logHash.R'
 RoxygenNote: 6.0.1

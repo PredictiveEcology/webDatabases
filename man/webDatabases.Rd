@@ -37,3 +37,6 @@ unique(data$dataset)
 # pick out KNN
 data[dataset=="KNN"]
 }
+\author{
+Melina Houle
+}

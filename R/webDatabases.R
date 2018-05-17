@@ -7,11 +7,8 @@
 #' @return \code{data.table} containing dataset available for download.
 #'
 #' @author Melina Houle
-#' @docType methods
 #' @importFrom data.table data.table
 #' @keywords internal
-#' @export
-#' @rdname webdataset
 #'
 urlsWide <- function() {
   data.table(
