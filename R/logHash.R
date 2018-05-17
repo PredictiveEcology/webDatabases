@@ -1,7 +1,7 @@
-################################################################################
 #' Write \code{hashdata} to SQLite database
 #'
-#' If the SQLite database already exists, \code{hashdata} argument is append if not already present.
+#' If the SQLite database already exists, \code{hashdata} argument is append if
+#' not already present.
 #'
 #' @inheritParams hashDownload
 #'
@@ -12,11 +12,11 @@
 #'
 #' @author Melina Houle
 #' @docType methods
-#' @importFrom DBI dbConnect dbExistsTable dbWriteTable dbSendQuery dbFetch dbClearResult dbDisconnect
+#' @export
+#' @importFrom DBI dbClearResult dbConnect dbDisconnect dbExistsTable dbFetch dbSendQuery dbWriteTable
 #' @importFrom RSQLite SQLite
 #' @keywords internal
 #' @rdname logHash
-#' @export
 #'
 #' @examples
 #' \dontrun{

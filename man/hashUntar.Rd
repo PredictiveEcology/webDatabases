@@ -39,12 +39,12 @@ file exist locally) and compare checksum value from previous event when present.
 Untar is performed when file doesn't exists or checksums don't match.
 }
 \examples{
-  urlpath <- "ftp://sidads.colorado.edu/pub/DATASETS/NOAA/G02171/Hudson_Bay/2006"
-  urlfile <-  "cis_SGRDRHB_20060904_pl_a.tar"
-  url <- file.path(urlpath, urlfile)
-  hashDownload(url, destfile = tempdir(), cascade = FALSE)
-  tar<- file.path(tempdir(), basename(url))
-  hashUntar(tar, tempdir(), checkhash= FALSE)
+urlpath <- "ftp://sidads.colorado.edu/pub/DATASETS/NOAA/G02171/Hudson_Bay/2006"
+urlfile <-  "cis_SGRDRHB_20060904_pl_a.tar"
+url <- file.path(urlpath, urlfile)
+hashDownload(url, destfile = tempdir(), cascade = FALSE)
+tar<- file.path(tempdir(), basename(url))
+hashUntar(tar, tempdir(), checkhash= FALSE)
 }
 \author{
 Melina Houle

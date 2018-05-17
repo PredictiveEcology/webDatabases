@@ -1,4 +1,3 @@
-################################################################################
 #' Download and store hash value from downloaded file
 #'
 #' To avoid redownloading existing files, verify if the file exists locally.
@@ -31,18 +30,19 @@
 #' @return Invoked for its side-effect of downloading files to the \code{destfile/} directory.
 #'
 #' @author Melina Houle
-#' @docType methods
+#' @export
 #' @importFrom DBI dbConnect dbWriteTable dbReadTable dbExistsTable dbDisconnect
 #' @importFrom RSQLite SQLite
 #' @importFrom tools file_path_sans_ext file_ext
 #' @importFrom utils download.file
-#' @rdname hashDownload
 #' @keywords internal
-#' @export
+#' @rdname hashDownload
 #'
 #' @examples
+#' \dontrun{
 #' u <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"
 #' hashDownload(urls = u, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
+#' }
 hashDownload <- function(urls, destfile, checkhash = TRUE, quick = FALSE,
                          dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE) {
   cwd <- getwd()

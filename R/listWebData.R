@@ -2,23 +2,23 @@ if (getRversion() >= "3.1.0") {
   utils::globalVariables(c("dataset", "files"))
 }
 
-################################################################################
 #' Retrive file available to download.
 #'
-#' The function produce a character vector of file available to download. It uses a preset
-#' \code{data.table} in which a list of relevant dataset name, their associate url and password
-#' are stored. To retrive available file, the function derive URL, and username/password using
+#' Produce a character vector of files available to download.
+#' It uses a preset \code{data.table} in which a list of relevant dataset name,
+#' their associate url and password are stored.
+#' To retrive available file, the function derive URL, and username/password using
 #' the \code{datasetName}.
 #'
-#' @param urlTble A \code{data.table} that stores available dataset name, url,
+#' @param urlTbl  A \code{data.table} that stores available dataset name, url,
 #'                password and filenames found within each dataset.
-#'                \code{urltble} is provided within the package as urls object.
+#'                \code{urlTbl} is provided within the package as urls object.
 #'
-#' @param datasetName Character string. Represent the dataset of interest for download.
-#'                    \code{datasetName} allow to derived url and password from the \code{urltble}.
+#' @param datasetName  Character string. Represent the dataset of interest for download.
+#'                     \code{datasetName} allow to derived url and password from the \code{urlTbl}.
 #'
-#' @param dfile Character string representing filename of interest to download.
-#'              When missing, all files from associated url given will be listed.
+#' @param dfile  Character string representing filename of interest to download.
+#'               When missing, all files from associated url given will be listed.
 #'
 #' @return Vector of url to download.
 #'
@@ -41,18 +41,18 @@ if (getRversion() >= "3.1.0") {
 #' )
 #' path2data <- listWebData(dt, datasetName = "NFDB", dfile = "NFDB_poly_20160712_metadata.pdf")
 #' }
-listWebData <- function(urlTble, datasetName, dfile) {
-  if (missing(urlTble)) {
+listWebData <- function(urlTbl, datasetName, dfile) {
+  if (missing(urlTbl)) {
     stop("You must provide a data.table that contain the link between url, datasetName and password.")
   }
   if (missing(datasetName)) {
     stop("You must provide dataset name to access url of interest.")
   }
   #if (missing(dfile)) dfile <- "all"
-  setkey(urlTble, "dataset")
-  password <- as.character(urlTble[.(datasetName)][, 'password', with = FALSE])
+  setkey(urlTbl, "dataset")
+  password <- as.character(urlTbl[.(datasetName)][, "password", with = FALSE])
   if (password == "NA") password <- NA_character_
-  url2data <- as.character(urlTble[.(datasetName)][, 'url', with = FALSE])
+  url2data <- as.character(urlTbl[.(datasetName)][, "url", with = FALSE])
 
   # Split url into typeConn(ftp, http) and address.
   typeConn <- paste(unlist(strsplit(url2data, "//"))[1], "//", sep = "")
@@ -84,15 +84,12 @@ listWebData <- function(urlTble, datasetName, dfile) {
   return(file.list)
 }
 
-
 #' Grab the current version of the urls either locally or from the git repository
 #'
-#' Running this will get latest version of the urls, returned as a data.table.
+#' Running this will get latest version of the urls, returned as a \code{data.table}.
 #'
-#' @return
-#' Data.table with 4 \code{columns}, \code{dataset}, \code{url}, \code{password},
-#' and \code{files}, keyed by \code{dataset},
-#'  \code{files}
+#' The current webDatabase is located at
+#' \href{https://github.com/PredictiveEcology/webDatabases/blob/master/R/webDatabases.R}{Web Database}
 #'
 #' @param dbUrl Character string where to look for web database. Defaults to the web database
 #'              See details.
@@ -104,13 +101,13 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #'
 #' @param wide Logical. If \code{TRUE}, returns the wide form of database. Default \code{FALSE}
 #'
-#' @details
-#' The current webDatabase is located at
-#' \href{https://github.com/PredictiveEcology/webDatabases/blob/master/R/webDatabases.R}{
-#' Web Database}
+#' @return A data.table with 4 \code{columns}, \code{dataset}, \code{url}, \code{password},
+#' and \code{files}, keyed by \code{dataset}, \code{files}.
+#'
+#' @export
 #' @importFrom data.table data.table
 #' @importFrom RCurl url.exists
-#' @export
+#'
 #' @examples
 #' data <- webDatabases()
 #'
@@ -119,9 +116,7 @@ listWebData <- function(urlTble, datasetName, dfile) {
 #'
 #' # pick out KNN
 #' data[dataset=="KNN"]
-webDatabases <- function(dbUrl = NULL,
-                         local = FALSE, wide = FALSE) {
-
+webDatabases <- function(dbUrl = NULL, local = FALSE, wide = FALSE) {
   if (!local) {
     if (!RCurl::url.exists(dbUrl)) {
       local <- FALSE
@@ -133,7 +128,7 @@ webDatabases <- function(dbUrl = NULL,
     source(dbUrl, local = TRUE)
     message("Database retrieved from PredictiveEcology/webDatabases")
   } else {
-    message("Database retrieved locally because ", dbUrl, " is not reachable")
+    message("Database retrieved locally because ", dbUrl, " is not reachable.")
   }
 
   urls <- urlsWide()

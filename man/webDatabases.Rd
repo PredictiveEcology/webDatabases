@@ -18,17 +18,15 @@ existed when the user installed the package.}
 \item{wide}{Logical. If \code{TRUE}, returns the wide form of database. Default \code{FALSE}}
 }
 \value{
-Data.table with 4 \code{columns}, \code{dataset}, \code{url}, \code{password},
-and \code{files}, keyed by \code{dataset},
- \code{files}
+A data.table with 4 \code{columns}, \code{dataset}, \code{url}, \code{password},
+and \code{files}, keyed by \code{dataset}, \code{files}.
 }
 \description{
-Running this will get latest version of the urls, returned as a data.table.
+Running this will get latest version of the urls, returned as a \code{data.table}.
 }
 \details{
 The current webDatabase is located at
-\href{https://github.com/PredictiveEcology/webDatabases/blob/master/R/webDatabases.R}{
-Web Database}
+\href{https://github.com/PredictiveEcology/webDatabases/blob/master/R/webDatabases.R}{Web Database}
 }
 \examples{
 data <- webDatabases()

@@ -4,7 +4,7 @@ Title: Find And Download Canadian Forestry, Ecological And Other Natural Places 
 Description: A set of functions for finding and downloading web datasets,
     with an initial focus on datasets relevant for work in Canadian forests.
 Version: 0.0.1
-Date: 2017-06-07
+Date: 2018-05-17
 Authors@R: c(
     person(c("Alex", "M"), "Chubaty", email = "alexander.chubaty@canada.ca",
     role = c("aut", "cre")),

@@ -1,4 +1,3 @@
-################################################################################
 #' Extract files from a zip archive downloaded and log checksum value
 #'
 #' Unzip dataset previously downloaded from url, first checking if
@@ -13,13 +12,12 @@
 #'
 #' @author Melina Houle
 #' @docType methods
+#' @export
 #' @importFrom DBI dbConnect dbReadTable dbDisconnect
 #' @importFrom RSQLite SQLite
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils unzip
 #' @keywords internal
-#' @export
-#' @rdname hashUnzip
 #'
 #' @examples
 #' u <-"http://ftp.geogratis.gc.ca/pub/nrcan_rncan/archive/vector/cli_itc_50k/land_use/L040J03.zip"

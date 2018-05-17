@@ -29,9 +29,9 @@ Stores, in a \code{data.frame}, the filename and its checksum value (computed
 using the \code{\link[digest]{digest}}).
 }
 \examples{
-  outdir <- tempdir()
-  file.list <- list.files(outdir)
-  webDatabases::hList(file.list, destfile = outdir, quick = TRUE)
+outdir <- tempdir()
+file.list <- list.files(outdir)
+webDatabases::hList(file.list, destfile = outdir, quick = TRUE)
 
 }
 \author{

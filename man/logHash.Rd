@@ -19,7 +19,8 @@ If the database does not yet exist, one is created. Default is \code{"dbHash.sql
 Invoked for its side-effect of logging filenames and checksum values into the SQL database.
 }
 \description{
-If the SQLite database already exists, \code{hashdata} argument is append if not already present.
+If the SQLite database already exists, \code{hashdata} argument is append if
+not already present.
 }
 \examples{
 \dontrun{

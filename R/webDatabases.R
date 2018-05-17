@@ -1,4 +1,3 @@
-################################################################################
 #' Table of relevant dataset accessible using url
 #'
 #' Stores dataset name with their respective url and username/password.
