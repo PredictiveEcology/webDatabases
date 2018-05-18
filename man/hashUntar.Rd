@@ -6,7 +6,7 @@
 \title{Extract files from a tar archive and log checksum value to avoid repeating event}
 \usage{
 hashUntar(tarfile, destfile, checkhash = TRUE, quick = FALSE,
-  dbHash = "dbHash.sqlite")
+  dbHash = getOption("webdatabases.dbfile"))
 }
 \arguments{
 \item{tarfile}{A character string. Represents path to tarfile.}
@@ -27,7 +27,8 @@ If \code{FALSE} (default), cheksum is compiled using the object.}
 
 \item{dbHash}{Character string. The path to the database file where checksum
 value of file is logged.
-If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
+If the database does not yet exist, one is created.
+Default is to use the option \code{webdatabases.dbfile}.}
 }
 \value{
 Untarred/unzipped \code{tarfile} in a subfolder under \code{destfile} using

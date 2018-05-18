@@ -87,7 +87,6 @@ test_that("test-hashDownload", {
   hashDownload(url, outdir, checkhash = TRUE, quick = TRUE,
                dbHash = dbHash , cascade = FALSE)
 
-
   # Test logged checksumFile with quick = FALSE. File will redownload to log the proper checksum.
   hashDownload(url, outdir, checkhash = TRUE, quick = FALSE,
           dbHash = dbHash , cascade = FALSE)

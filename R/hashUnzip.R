@@ -25,7 +25,7 @@
 #' zip <- file.path(tempdir(), basename(u))
 #' hashUnzip(zip, tempdir(), checkhash = FALSE)
 hashUnzip <- function(zipfile, destfile, checkhash = TRUE, quick = FALSE,
-                      dbHash = "dbHash.sqlite") {
+                      dbHash = getOption("webdatabases.dbfile")) {
   fn <- file_path_sans_ext(basename(zipfile))
   if (checkhash) {
     con <- dbConnect(SQLite(), dbHash)

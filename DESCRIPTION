@@ -17,15 +17,15 @@ Authors@R: c(
     )
 Depends: R (>= 3.3.0)
 Imports:
-  digest,
-  utils,
-  DBI,
-  XML,
-  tools,
-  RCurl,
   data.table,
+  DBI,
+  digest,
+  plyr,
+  RCurl,
   RSQLite,
-  plyr
+  tools,
+  utils,
+  XML
 Suggests:
   knitr,
   rmarkdown,
@@ -45,4 +45,5 @@ Collate:
     'webDatabases.R'
     'listWebData.R'
     'logHash.R'
+    'zzz.R'
 RoxygenNote: 6.0.1

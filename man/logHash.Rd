@@ -5,7 +5,7 @@
 \alias{logHash}
 \title{Write \code{hashdata} to SQLite database}
 \usage{
-logHash(hashdata, dbHash = "dbHash.sqlite")
+logHash(hashdata, dbHash = getOption("webdatabases.dbfile"))
 }
 \arguments{
 \item{hashdata}{A \code{data.frame} containing \code{filename}, \code{checksumFile},
@@ -13,7 +13,8 @@ logHash(hashdata, dbHash = "dbHash.sqlite")
 
 \item{dbHash}{Character string. The path to the database file where checksum
 value of file is logged.
-If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
+If the database does not yet exist, one is created.
+Default is to use the option \code{webdatabases.dbfile}.}
 }
 \value{
 Invoked for its side-effect of logging filenames and checksum values into the SQL database.
@@ -24,11 +25,12 @@ not already present.
 }
 \examples{
 \dontrun{
-destfile <-tempdir()
-dbHash <- file.path(destfile, "dbHash.sqlite")
-file.list<- list.files(destfile)
-hfile <- hList(file.list, destfile, quick = TRUE)
-logHash(hfile, dbHash)
+destFile <-tempdir()
+dbFile <- basename(getOption("webdatabases.dbfile")
+dbHash <- file.path(destFile, dbFile)
+file.list<- list.files(destFile)
+hFile <- hList(file.list, destFile, quick = TRUE)
+logHash(hFile, dbHash)
 }
 }
 \author{

@@ -5,7 +5,8 @@
 \title{Download and store hash value from downloaded file}
 \usage{
 hashDownload(urls, destfile, checkhash = TRUE, quick = FALSE,
-  dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE)
+  dbHash = getOption("webdatabases.dbfile"), cascade = FALSE,
+  quiet = TRUE)
 }
 \arguments{
 \item{urls}{A character string. Represents the url of file to be downloaded.}
@@ -26,7 +27,8 @@ If \code{FALSE} (default), cheksum is compiled using the object.}
 
 \item{dbHash}{Character string. The path to the database file where checksum
 value of file is logged.
-If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
+If the database does not yet exist, one is created.
+Default is to use the option \code{webdatabases.dbfile}.}
 
 \item{cascade}{Logical. If \code{FALSE}, file is untar and/or unzip. Default is \code{FALSE}.}
 

@@ -6,7 +6,7 @@
 \title{Extract files from a zip archive downloaded and log checksum value}
 \usage{
 hashUnzip(zipfile, destfile, checkhash = TRUE, quick = FALSE,
-  dbHash = "dbHash.sqlite")
+  dbHash = getOption("webdatabases.dbfile"))
 }
 \arguments{
 \item{zipfile}{A character vector. Contains path to zipfile.}
@@ -27,7 +27,8 @@ If \code{FALSE} (default), cheksum is compiled using the object.}
 
 \item{dbHash}{Character string. The path to the database file where checksum
 value of file is logged.
-If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.}
+If the database does not yet exist, one is created.
+Default is to use the option \code{webdatabases.dbfile}.}
 }
 \value{
 Invoked for its side-effect of saving unzipped file in a subdirectory

@@ -21,7 +21,8 @@
 #'
 #' @param dbHash Character string. The path to the database file where checksum
 #'               value of file is logged.
-#'               If the database does not yet exist, one is created. Default is \code{"dbHash.sqlite"}.
+#'               If the database does not yet exist, one is created.
+#'               Default is to use the option \code{webdatabases.dbfile}.
 #'
 #' @param cascade Logical. If \code{FALSE}, file is untar and/or unzip. Default is \code{FALSE}.
 #'
@@ -44,10 +45,11 @@
 #' hashDownload(urls = u, destfile = tempdir(), checkhash = FALSE, cascade = FALSE)
 #' }
 hashDownload <- function(urls, destfile, checkhash = TRUE, quick = FALSE,
-                         dbHash = "dbHash.sqlite", cascade = FALSE, quiet = TRUE) {
+                         dbHash = getOption("webdatabases.dbfile"), cascade = FALSE,
+                         quiet = TRUE) {
   cwd <- getwd()
   if (!missing(destfile)) {
-    setwd(destfile)
+    setwd(destfile) ## TODO: why is this necessary??
     on.exit(setwd(cwd))
   }
   if (!file.exists(destfile)) {

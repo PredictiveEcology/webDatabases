@@ -20,13 +20,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' destfile <-tempdir()
-#' dbHash <- file.path(destfile, "dbHash.sqlite")
-#' file.list<- list.files(destfile)
-#' hfile <- hList(file.list, destfile, quick = TRUE)
-#' logHash(hfile, dbHash)
+#' destFile <-tempdir()
+#' dbFile <- basename(getOption("webdatabases.dbfile")
+#' dbHash <- file.path(destFile, dbFile)
+#' file.list<- list.files(destFile)
+#' hFile <- hList(file.list, destFile, quick = TRUE)
+#' logHash(hFile, dbHash)
 #' }
-logHash <- function(hashdata, dbHash = "dbHash.sqlite") {
+logHash <- function(hashdata, dbHash = getOption("webdatabases.dbfile")) {
   con <- dbConnect(SQLite(), dbHash)
   if (!dbExistsTable(con, "checksum")) {
     dbWriteTable(con, "checksum", .hdf(), overwrite = TRUE, field.types = NULL)
