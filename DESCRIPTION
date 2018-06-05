@@ -6,7 +6,7 @@ Description: A set of functions for finding and downloading web datasets,
 Version: 0.0.1
 Date: 2018-05-17
 Authors@R: c(
-    person(c("Alex", "M"), "Chubaty", email = "alexander.chubaty@canada.ca",
+    person(c("Alex", "M"), "Chubaty", email = "alex.chubaty@gmail.com",
     role = c("aut", "cre")),
     person(c("Eliot", "J", "B"), "McIntire", email = "eliot.mcintire@canada.ca",
     role = c("aut")),
